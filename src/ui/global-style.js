@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
   font-weight: 400;
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: rgba(39,42,46, 0.75);
+  background-color: #2F333A;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <Main>
-        hi
+        
       </Main>
     </>
   )
