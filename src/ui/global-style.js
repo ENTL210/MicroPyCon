@@ -12,6 +12,9 @@ const GlobalStyle = createGlobalStyle`
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
 

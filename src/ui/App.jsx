@@ -1,13 +1,16 @@
 import { useState } from 'react'
-import {Main} from './app-style'
+import {Main, Sidebar} from './app-style'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Main>
+      <Sidebar>
         
+      </Sidebar>
+      <Main>
+
       </Main>
     </>
   )
