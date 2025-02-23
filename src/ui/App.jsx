@@ -16,7 +16,7 @@ function App() {
   `
 
   const Main = styled.div`
-  width: calc(100vw - 215px);
+  width: calc(100vw - ${(props) => props.sidebarWidth || '215px'});
   background-color: rgba(44,44,43,1);
   border-radius: 10px;
   margin: 7.5px;

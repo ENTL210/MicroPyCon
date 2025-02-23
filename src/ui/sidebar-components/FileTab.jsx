@@ -3,9 +3,14 @@ import styled from "styled-components";
 function FileTab() {
     const FileTab = styled.div`
         width: 100%;
-        flex-grow: 1;
+        min-width: ${(props) => props.sidebarWidth || '215px'};
         scroll-snap-align: start;
-        position: relative;
+        padding: 0px;
+    `
+
+    const Container = styled.div`
+        width: 100%;
+        margin: 0px 0px 0px 15px;
     `
 
     const TabTitle = styled.div`
@@ -16,7 +21,9 @@ function FileTab() {
 
     return (
         <FileTab>
-            <TabTitle>File</TabTitle>
+            <Container>
+                <TabTitle>File</TabTitle>
+            </Container>
         </FileTab>
     )
 }
