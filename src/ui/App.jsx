@@ -1,9 +1,17 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(215);
+  const [selectedFolderPath, setSelectedFolderPath] = useState("")
+  
+  useEffect(() => {
+    window.electron.onFetchSelectedDirectory((event, path) => {
+      setSelectedFolderPath(path)
+    });
+    window.electron.selectedDirectory(selectedFolderPath)
+  })
 
   const RootContainer = styled.div`
   width: 100%;
@@ -21,14 +29,13 @@ function App() {
   border-radius: 10px;
   margin: 7.5px;
   `
-
-
+  
 
   return (
     <RootContainer>
       <Sidebar sidebarWidth={`${sidebarWidth}px`}/>
       <Main sidebarWidth={`${sidebarWidth}px`}>
-
+        {selectedFolderPath}
       </Main>
     </RootContainer>
   )
