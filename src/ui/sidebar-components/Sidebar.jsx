@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import FileTab from "./FileTab";
 
-function Sidebar({sidebarWidth}) {
+function Sidebar({sidebarWidth, selectedDirectory}) {
     const Sidebar = styled.div`
     width: ${sidebarWidth || '215px'};
     position: relative;
@@ -17,9 +17,11 @@ function Sidebar({sidebarWidth}) {
     font-weight: 700;
     `
 
+    console.log(selectedDirectory)
+
     return(
         <Sidebar>
-            <FileTab sidebarWidth={sidebarWidth}/>
+            <FileTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory}/>
         </Sidebar>
     )
 }

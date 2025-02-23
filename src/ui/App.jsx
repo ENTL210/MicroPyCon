@@ -33,9 +33,8 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`}/>
+      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolderPath}/>
       <Main sidebarWidth={`${sidebarWidth}px`}>
-        {selectedFolderPath}
       </Main>
     </RootContainer>
   )
