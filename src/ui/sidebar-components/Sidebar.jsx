@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import FileTab from "./FileTab";
 
-function Sidebar() {
+function Sidebar({sidebarWidth}) {
     const Sidebar = styled.div`
-    width: ${(props) => props.sidebarWidth || '215px'};
+    width: ${sidebarWidth || '215px'};
     position: relative;
     margin: 50px 0px 7.5px 0;
     padding:5px;
@@ -19,7 +19,7 @@ function Sidebar() {
 
     return(
         <Sidebar>
-            <FileTab/>
+            <FileTab sidebarWidth={sidebarWidth}/>
         </Sidebar>
     )
 }

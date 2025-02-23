@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [sidebarWidth, setSidebarWidth] = useState(215);
 
   const RootContainer = styled.div`
   width: 100%;
@@ -26,8 +26,8 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar/>
-      <Main>
+      <Sidebar sidebarWidth={`${sidebarWidth}px`}/>
+      <Main sidebarWidth={`${sidebarWidth}px`}>
 
       </Main>
     </RootContainer>
