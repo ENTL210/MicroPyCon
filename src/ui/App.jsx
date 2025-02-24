@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'motion/react';
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
+import { easeIn } from 'motion';
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(215);
@@ -79,7 +80,16 @@ function App() {
       <Main 
         initial = {{
           width: '100vw',
-          margin: '50px 7.5px 7.5px 7.5px'
+          margin: '50px 7.5px 7.5px 7.5px',
+          opacity: 0
+        }}
+        animate = {{
+          opacity: 1,
+          transition: {
+            ease: easeIn,
+            duration: 0.5,
+            delay: 0.08
+          }
         }}
       >
         <WelcomePhraseWrapper
