@@ -3,6 +3,8 @@ import { motion } from 'motion/react';
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
 import { easeIn } from 'motion';
+import fileIcon from './assets/file-icon.png'
+import folderIcon from './assets/folder-icon.png'
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(215);
@@ -36,16 +38,54 @@ function App() {
   justify-content: center;
   `
 
+  const WelcomingScreen = styled(motion.div)`
+    flex-grow: 1;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  `
+
   const WelcomePhraseWrapper = styled(motion.p)`
     background: linear-gradient(45deg, #ff6347, #4CAF50, #1E90FF, #ff6347);
     background-size: 400% 400%;
     color: transparent;
     -webkit-background-clip: text;
     background-clip: text;
-    font-size: 50px;
+    font-size: 40px;
     font-weight: 700;
     text-transform: uppercase;
-    
+    text-align: center;
+  `
+
+  const FileDialogLauncherWrapper = styled(motion.div)`
+    position: absolute;
+    bottom: 10%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  `
+
+  const FileDialogLauncherBtn = styled(motion.button)`
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #464950;
+    padding: 10px;
+    border-radius: 50%;
+
+    img {
+      width: 25px;
+    }
   `
 
   const WelcomePhraseAnimation = {
@@ -56,10 +96,10 @@ function App() {
       transition: {
         delay: 0.5,
         ease: 'linear',
-        duration: 5,
-        staggerChildren: 0.08,
+        duration: 2.5,
+        staggerChildren: 0.05,
         repeat: Infinity,  // Repeat the animation infinitely
-        repeatType: 'loop',
+        repeatType: 'mirror',
       }
     }
   }
@@ -81,7 +121,6 @@ function App() {
         initial = {{
           width: '100vw',
           margin: '50px 7.5px 7.5px 7.5px',
-          opacity: 0
         }}
         animate = {{
           opacity: 1,
@@ -92,19 +131,37 @@ function App() {
           }
         }}
       >
-        <WelcomePhraseWrapper
-          variants={WelcomePhraseAnimation}
-          initial="hidden"
-          animate="visible"
-        >
-          {welcomeText.split("").map((char, index) => {
-            return(
-              <motion.span key={char + "-" + index} variants={WelcomePhraseTextAnimation}>
-                {char}
-              </motion.span>
-            )
-          })}
-        </WelcomePhraseWrapper>
+        <WelcomingScreen>
+          <WelcomePhraseWrapper
+            variants={WelcomePhraseAnimation}
+            initial="hidden"
+            animate="visible"
+          >
+            {welcomeText.split("").map((char, index) => {
+              return(
+                <motion.span key={char + "-" + index} variants={WelcomePhraseTextAnimation}>
+                  {char}
+                </motion.span>
+              )
+            })}
+          </WelcomePhraseWrapper>
+          <FileDialogLauncherWrapper>
+            <FileDialogLauncherBtn
+              whileHover={{
+                backgroundColor: "rgba(46,150,255, 1)"
+              }}
+            >
+              <img src={fileIcon} alt="" />
+            </FileDialogLauncherBtn>
+            <FileDialogLauncherBtn
+              whileHover={{
+                backgroundColor: "rgba(46,150,255, 1)"
+              }}
+            >
+              <img src={folderIcon} alt="" />
+            </FileDialogLauncherBtn>
+          </FileDialogLauncherWrapper>
+        </WelcomingScreen>
         
       </Main>
     </RootContainer>
