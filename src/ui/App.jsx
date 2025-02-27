@@ -9,12 +9,18 @@ import folderIcon from './assets/folder-icon.png'
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(215);
   const [selectedFolderPath, setSelectedFolderPath] = useState("")
+  const [selectedFilePath, setSelectedFilePath] = useState("")
   
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
+      setSelectedFolderPath("")
       setSelectedFolderPath(path)
+
     });
-    window.electron.selectedDirectory(selectedFolderPath)
+    window.electron.onFetchSelectedFile((event, path) => {
+      setSelectedFolderPath("")
+      setSelectedFilePath(path)
+    })
   })
 
   const RootContainer = styled.div`
@@ -66,6 +72,7 @@ function App() {
     display: flex;
     flex-direction: row;
     gap: 20px;
+    align-items: center;
   `
 
   const FileDialogLauncherBtn = styled(motion.button)`
@@ -150,12 +157,32 @@ function App() {
               whileHover={{
                 backgroundColor: "rgba(46,150,255, 1)"
               }}
+              onClick={async () => {
+                try {
+                  const filePath = await window.electron.openFileDialog();
+                  if (filePath.length > 0) {
+                    setSelectedFilePath(filePath)
+                  }
+                } catch (err){
+                  console.log("Failed to open dialog", err)
+                }
+              }}
             >
               <img src={fileIcon} alt="" />
             </FileDialogLauncherBtn>
             <FileDialogLauncherBtn
               whileHover={{
                 backgroundColor: "rgba(46,150,255, 1)"
+              }}
+              onClick={async () => {
+                try {
+                  const filePath = await window.electron.openDirectoryDialog();
+                  if (filePath.length > 0) {
+                    setSelectedFilePath(filePath)
+                  }
+                } catch (err){
+                  console.log("Failed to open dialog", err)
+                }
               }}
             >
               <img src={folderIcon} alt="" />

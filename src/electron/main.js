@@ -33,17 +33,14 @@ app.on("ready", () => {
             label: 'File',
             submenu: [
                 {
-                    label: 'Open Folder...',
+                    label: 'Open...',
                     click: () => {
                         dialog.showOpenDialog(mainWindow, {
-                            properties: ['openDirectory'],
+                            properties: ['openFile'],
                         }).then(result => {
                             if (!result.canceled) {
-                                const folderPath = result.filePaths[0];  // Get the selected folder path
-                                mainWindow.webContents.send('fetch-selected-directory', folderPath)
-                                // ipcMain.handle('fetch-selected-directory', async () => {
-                                //     return folderPath
-                                // })
+                                const filePath = result.filePaths[0];  // Get the selected folder path
+                                mainWindow.webContents.send('fetch-selected-file', filePath)
                                 
                               } else {
                                 console.log('Folder selection was canceled');
@@ -52,7 +49,25 @@ app.on("ready", () => {
                             console.error('Error selecting folder:', err);
                         })
                     }
-                }
+                },
+                {
+                    label: 'Open Folder...',
+                    click: () => {
+                        dialog.showOpenDialog(mainWindow, {
+                            properties: ['openDirectory'],
+                        }).then(result => {
+                            if (!result.canceled) {
+                                const folderPath = result.filePaths[0];  // Get the selected folder path
+                                mainWindow.webContents.send('fetch-selected-directory', folderPath)
+                                
+                              } else {
+                                console.log('Folder selection was canceled');
+                              }
+                        }).catch(error => {
+                            console.error('Error selecting folder:', err);
+                        })
+                    }
+                },
             ]
         },
         {
@@ -86,9 +101,19 @@ app.on("ready", () => {
         }
     });
 
-    ipcMain.on('selectedDirectory', (_event, value) => {
-        console.log(value)
-    })
+    ipcMain.handle('dialog:openFileDialog', async () => {
+        const result = await dialog.showOpenDialog(mainWindow, {
+          properties: ['openFile'],
+        });
+        return result.filePaths;  // Return the selected file paths
+    });
+
+    ipcMain.handle('dialog:openDirectoryDialog', async () => {
+        const result = await dialog.showOpenDialog(mainWindow, {
+          properties: ['openDirectory'],
+        });
+        return result.filePaths;  // Return the selected file paths
+    });
 
 
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'));
