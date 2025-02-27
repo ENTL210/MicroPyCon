@@ -6,6 +6,7 @@ function FileTab({selectedDirectory, selectedFile}) {
         min-width: ${(props) => props.sidebarWidth || '215px'};
         scroll-snap-align: start;
         padding: 0px;
+        user-select: none;
     `
 
     const Container = styled.div`
