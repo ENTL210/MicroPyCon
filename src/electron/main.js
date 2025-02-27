@@ -94,6 +94,8 @@ app.on("ready", () => {
         transparent: true,
         width: 975,
         height: 650,
+        minWidth: 600,
+        minHeight: 400,
         webPreferences: {
             preload: path.join(app.getAppPath() + '/src/electron/preload.js'),
             nodeIntegration: false,

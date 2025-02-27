@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-function FileTab({selectedDirectory}) {
+function FileTab({selectedDirectory, selectedFile}) {
     const FileTab = styled.div`
         width: 100%;
         min-width: ${(props) => props.sidebarWidth || '215px'};
@@ -16,7 +16,7 @@ function FileTab({selectedDirectory}) {
     const TabTitle = styled.div`
         font-weight: 700;
         color: #FFFFFF;
-        font-size: 15px;
+        font-size: 18px;
     `
 
     return (

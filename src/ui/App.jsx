@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
-import { easeIn } from 'motion';
+import { easeIn, easeOut } from 'motion';
 import fileIcon from './assets/file-icon.png'
 import folderIcon from './assets/folder-icon.png'
 
@@ -10,7 +10,7 @@ function App() {
   const [sidebarWidth, setSidebarWidth] = useState(215);
   const [selectedFolderPath, setSelectedFolderPath] = useState("")
   const [selectedFilePath, setSelectedFilePath] = useState("")
-  
+
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
       setSelectedFolderPath("")
@@ -34,7 +34,6 @@ function App() {
   `
 
   const Main = styled(motion.div)`
-  //width: calc(100vw - ${(props) => props.sidebarWidth || '215px'});
   background-color: rgba(44,44,43,1);
   border-radius: 10px;
   margin: 7.5px;
@@ -96,7 +95,7 @@ function App() {
   `
 
   const WelcomePhraseAnimation = {
-    hidden: {opacity: 1},
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       backgroundPosition: '100% 0%',
@@ -112,84 +111,103 @@ function App() {
   }
 
   const WelcomePhraseTextAnimation = {
-    hidden: {opacity: 0},
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
     }
   }
 
   const welcomeText = "Welcome to MicroPycon"
-  
+
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolderPath}/>
-      <Main 
-        initial = {{
+      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolderPath} selectedFile={selectedFilePath} />
+      <Main
+        initial={{
           width: '100vw',
           margin: '50px 7.5px 7.5px 7.5px',
         }}
-        animate = {{
+        animate={{
           opacity: 1,
+          width: (selectedFilePath.length > 0 || selectedFolderPath.length > 0) ? `calc(100vw - ${sidebarWidth}px)` : '100vw',
           transition: {
             ease: easeIn,
             duration: 0.5,
-            delay: 0.08
           }
         }}
       >
-        <WelcomingScreen>
-          <WelcomePhraseWrapper
-            variants={WelcomePhraseAnimation}
-            initial="hidden"
-            animate="visible"
-          >
-            {welcomeText.split("").map((char, index) => {
-              return(
-                <motion.span key={char + "-" + index} variants={WelcomePhraseTextAnimation}>
-                  {char}
-                </motion.span>
-              )
-            })}
-          </WelcomePhraseWrapper>
-          <FileDialogLauncherWrapper>
-            <FileDialogLauncherBtn
-              whileHover={{
-                backgroundColor: "rgba(46,150,255, 1)"
+
+        <AnimatePresence>
+          {(selectedFilePath.length == 0 && selectedFolderPath.length == 0) && (
+            <WelcomingScreen
+              initial={{
+                opacity: 0,
               }}
-              onClick={async () => {
-                try {
-                  const filePath = await window.electron.openFileDialog();
-                  if (filePath.length > 0) {
-                    setSelectedFilePath(filePath)
-                  }
-                } catch (err){
-                  console.log("Failed to open dialog", err)
-                }
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0
+              }}
+              transition={{
+                ease: easeOut,
+                duration: 1
               }}
             >
-              <img src={fileIcon} alt="" />
-            </FileDialogLauncherBtn>
-            <FileDialogLauncherBtn
-              whileHover={{
-                backgroundColor: "rgba(46,150,255, 1)"
-              }}
-              onClick={async () => {
-                try {
-                  const filePath = await window.electron.openDirectoryDialog();
-                  if (filePath.length > 0) {
-                    setSelectedFilePath(filePath)
-                  }
-                } catch (err){
-                  console.log("Failed to open dialog", err)
-                }
-              }}
-            >
-              <img src={folderIcon} alt="" />
-            </FileDialogLauncherBtn>
-          </FileDialogLauncherWrapper>
-        </WelcomingScreen>
-        
+              <WelcomePhraseWrapper
+                variants={WelcomePhraseAnimation}
+                initial="hidden"
+                animate="visible"
+              >
+                {welcomeText.split("").map((char, index) => {
+                  return (
+                    <motion.span key={char + "-" + index} variants={WelcomePhraseTextAnimation}>
+                      {char}
+                    </motion.span>
+                  )
+                })}
+              </WelcomePhraseWrapper>
+              <FileDialogLauncherWrapper>
+                <FileDialogLauncherBtn
+                  whileHover={{
+                    backgroundColor: "rgba(46,150,255, 1)"
+                  }}
+                  onClick={async () => {
+                    try {
+                      const filePath = await window.electron.openFileDialog();
+                      if (filePath.length > 0) {
+                        setSelectedFilePath(filePath)
+                      }
+                    } catch (err) {
+                      console.log("Failed to open dialog", err)
+                    }
+                  }}
+                >
+                  <img src={fileIcon} alt="" />
+                </FileDialogLauncherBtn>
+                <FileDialogLauncherBtn
+                  whileHover={{
+                    backgroundColor: "rgba(46,150,255, 1)"
+                  }}
+                  onClick={async () => {
+                    try {
+                      const folderPath = await window.electron.openDirectoryDialog();
+                      if (folderPath.length > 0) {
+                        setSelectedFilePath(folderPath)
+                      }
+                    } catch (err) {
+                      console.log("Failed to open dialog", err)
+                    }
+                  }}
+                >
+                  <img src={folderIcon} alt="" />
+                </FileDialogLauncherBtn>
+              </FileDialogLauncherWrapper>
+            </WelcomingScreen>
+          )}
+        </AnimatePresence>
+
       </Main>
     </RootContainer>
   )
