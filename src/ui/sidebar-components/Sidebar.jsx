@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { motion } from "motion/react";
 import FileTab from "./FileTab";
 
-function Sidebar({sidebarWidth, selectedDirectory, selectedFile}) {
+function Sidebar({sidebarWidth, selectedDirectory }) {
     const Sidebar = styled(motion.div)`
     position: relative;
     margin: 50px 0px 7.5px 0;
@@ -28,7 +28,7 @@ function Sidebar({sidebarWidth, selectedDirectory, selectedFile}) {
             width: (selectedDirectory.length > 0 || selectedFile.length > 0) ? sidebarWidth : '0px'
         }}
         >
-            <FileTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory} selectedFile={selectedFile}/>
+            <FileTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory}/>
         </Sidebar>
     )
 }

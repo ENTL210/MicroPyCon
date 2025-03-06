@@ -6,4 +6,5 @@ contextBridge.exposeInMainWorld('electron', {
     onFetchSelectedFile: (callback) => ipcRenderer.on('fetch-selected-file', callback),
     openDirectoryDialog: (callback) => ipcRenderer.invoke('dialog:openDirectoryDialog'),
     openFileDialog: (callback) => ipcRenderer.invoke('dialog:openFileDialog'),
+    getDirectoryContents: (path) => ipcRenderer.invoke('get-directory-contents', path),
 })

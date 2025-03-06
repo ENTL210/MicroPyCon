@@ -10,6 +10,7 @@ function App() {
   const [sidebarWidth, setSidebarWidth] = useState(215);
   const [selectedFolderPath, setSelectedFolderPath] = useState("")
   const [selectedFilePath, setSelectedFilePath] = useState("")
+  const [selectedFolder, setSelectedFolder] = useState([])
 
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
@@ -22,6 +23,10 @@ function App() {
       setSelectedFilePath(path)
     })
   })
+
+  useEffect(() => {
+    
+  }, [selectedFolderPath])
 
   const RootContainer = styled.div`
   width: 100%;
@@ -122,7 +127,7 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolderPath} selectedFile={selectedFilePath} />
+      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolder}/>
       <Main
         initial={{
           width: '100vw',
@@ -194,7 +199,14 @@ function App() {
                     try {
                       const folderPath = await window.electron.openDirectoryDialog();
                       if (folderPath.length > 0) {
-                        setSelectedFilePath(folderPath)
+                        setSelectedFolderPath(folderPath[0])
+                        try {
+                          const files = await window.electron.getDirectoryContents(folderPath[0]);
+                          setSelectedFolder(files)
+                        } catch (err) {
+                          console.log("Error: ", err)
+                        }
+
                       }
                     } catch (err) {
                       console.log("Failed to open dialog", err)

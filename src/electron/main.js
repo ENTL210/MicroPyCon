@@ -1,5 +1,7 @@
 import {app, BrowserWindow, Menu, dialog, ipcMain} from 'electron';
-import path from "path";
+import fs, { lstat, lstatSync, readdir, readdirSync} from 'fs'
+import { walkSync } from '@nodesecure/fs-walk';
+import path, { sep } from "path";
 
 app.on("ready", () => {
     // Check if this is Mac...
@@ -103,6 +105,36 @@ app.on("ready", () => {
         }
     });
 
+    // Handling directory walks...
+    const walkingDirectory = (dir) => {
+        const result = []
+        
+        const files = readdirSync(dir)
+
+        files.forEach((fileName) => {
+            const filePath = `${dir}${sep}${fileName}`
+            if (lstatSync(filePath).isDirectory()) {
+                result.push({
+                    name: fileName,
+                    path: filePath,
+                    fileExtension: '',
+                    subDirectory: walkingDirectory(filePath)
+                })
+            } else  {
+                result.push({
+                    name: fileName,
+                    path: filePath,
+                    fileExtension: path.extname(filePath)
+                })
+            }
+
+            
+        })
+
+        return result
+    }
+
+
     ipcMain.handle('dialog:openFileDialog', async () => {
         const result = await dialog.showOpenDialog(mainWindow, {
           properties: ['openFile'],
@@ -115,6 +147,15 @@ app.on("ready", () => {
           properties: ['openDirectory'],
         });
         return result.filePaths;  // Return the selected file paths
+    });
+
+    ipcMain.handle('get-directory-contents', async (event, parentPath) => {
+        try {
+            return walkingDirectory(parentPath)
+        } catch (err) {
+            console.log("Errors trying to fetch directory contents: ", err)
+            return [];
+        }
     });
 
 
