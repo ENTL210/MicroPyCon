@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { motion } from "motion/react";
-import FileTab from "./FileTab";
+import DirectoryTab from "./directory/DirectoryTab";
 
 function Sidebar({sidebarWidth, selectedDirectory }) {
     const Sidebar = styled(motion.div)`
@@ -16,7 +16,8 @@ function Sidebar({sidebarWidth, selectedDirectory }) {
     font-weight: 700;
     `
 
-    console.log(selectedFile.length)
+    // Print out the length of the selectedDirectory
+    // console.log(selectedDirectory.length)
 
     return(
         <Sidebar
@@ -25,10 +26,11 @@ function Sidebar({sidebarWidth, selectedDirectory }) {
             padding: '0px'
         }}
         animate={{
-            width: (selectedDirectory.length > 0 || selectedFile.length > 0) ? sidebarWidth : '0px'
+            width: (selectedDirectory.length > 0) ? sidebarWidth : '0px'
         }}
         >
-            <FileTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory}/>
+            <DirectoryTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory}/>
+            <DirectoryTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory}/>
         </Sidebar>
     )
 }

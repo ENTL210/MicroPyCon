@@ -94,10 +94,6 @@ app.on("ready", () => {
         titleBarStyle: 'hidden',
         trafficLightPosition: {x:12.5, y:15},
         transparent: true,
-        width: 975,
-        height: 650,
-        minWidth: 600,
-        minHeight: 400,
         webPreferences: {
             preload: path.join(app.getAppPath() + '/src/electron/preload.js'),
             nodeIntegration: false,
@@ -124,7 +120,8 @@ app.on("ready", () => {
                 result.push({
                     name: fileName,
                     path: filePath,
-                    fileExtension: path.extname(filePath)
+                    fileExtension: path.extname(filePath),
+                    subDirectory: []
                 })
             }
 

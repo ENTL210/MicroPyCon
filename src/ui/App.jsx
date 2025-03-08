@@ -30,7 +30,7 @@ function App() {
 
   const RootContainer = styled.div`
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
@@ -41,7 +41,6 @@ function App() {
   const Main = styled(motion.div)`
   background-color: rgba(44,44,43,1);
   border-radius: 10px;
-  margin: 7.5px;
   display: flex;
   flex-direction: column;
   align-items: center;
