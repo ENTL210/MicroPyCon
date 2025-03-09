@@ -103,7 +103,9 @@ app.on("ready", () => {
 
     // Handling directory walks...
     const walkingDirectory = (dir) => {
-        const result = []
+        const result = [
+            
+        ]
         
         const files = readdirSync(dir)
 
@@ -148,7 +150,15 @@ app.on("ready", () => {
 
     ipcMain.handle('get-directory-contents', async (event, parentPath) => {
         try {
-            return walkingDirectory(parentPath)
+            const result = [
+                {
+                    name: path.basename(parentPath),
+                    path: parentPath,
+                    fileExtension: '',
+                    subDirectory: walkingDirectory(parentPath)
+                }
+            ]
+            return result
         } catch (err) {
             console.log("Errors trying to fetch directory contents: ", err)
             return [];

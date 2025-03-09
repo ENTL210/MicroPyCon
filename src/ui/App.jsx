@@ -25,7 +25,20 @@ function App() {
   })
 
   useEffect(() => {
-    
+    console.log(selectedFolderPath)
+    async function output()  {
+      try {
+        const files = await window.electron.getDirectoryContents(selectedFolderPath);
+        setSelectedFolder(files)
+      } catch (err) {
+        console.log("Error: ", err)
+      }
+    }
+
+    if (selectedFolderPath.length > 0) {
+      output()
+    }
+
   }, [selectedFolderPath])
 
   const RootContainer = styled.div`
@@ -199,13 +212,12 @@ function App() {
                       const folderPath = await window.electron.openDirectoryDialog();
                       if (folderPath.length > 0) {
                         setSelectedFolderPath(folderPath[0])
-                        try {
-                          const files = await window.electron.getDirectoryContents(folderPath[0]);
-                          setSelectedFolder(files)
-                        } catch (err) {
-                          console.log("Error: ", err)
-                        }
-
+                        // try {
+                        //   const files = await window.electron.getDirectoryContents(folderPath[0]);
+                        //   setSelectedFolder(files)
+                        // } catch (err) {
+                        //   console.log("Error: ", err)
+                        // }
                       }
                     } catch (err) {
                       console.log("Failed to open dialog", err)

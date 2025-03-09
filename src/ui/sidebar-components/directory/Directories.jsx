@@ -5,20 +5,46 @@ import FileTab from "./FileTab";
 import rightArr from "../../assets/right-arr.png"
 import downArr from "../../assets/down-arr.png"
 
-function Directories({directories}) {
+function Directories({ directories, isSub }) {
 
-    const [isDirectoryExpanded, setIsDirectoryExpanded] = useState(false) 
+    const [isDirectoryExpanded, setIsDirectoryExpanded] = useState(false)
 
     const DirectoryContainer = styled(motion.div)`
         width: 100%;
-        padding: 7.5px 0px 7.5px 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 7.5px;
+    `
+
+    const ParentDirectory = styled(motion.div)`
+        width: 100%;
+        height: 30px;
         display: flex;
         align-items: center;
+        border-radius: 5px;
+    `
+
+    const ParentDirectoryWrapper = styled(motion.div)`
+        display: flex;
+        align-items: center;
+        width: 100%;
+    `
+
+    const SubDirectoryIndicator = styled(motion.div)`
+        width: 12.5%;
+        display: flex;
+        /* align-items: center; */
         justify-content: center;
+
+        hr {
+            border-left: 1px solid #FFFFFF;
+            height: 12.5px;
+            padding: 0px;
+        }
     `
 
     const ExpandButton = styled(motion.button)`
-        width: 20%;
+        width: 12.5%;
         background: none;
         color: inherit;
         border: none;
@@ -32,7 +58,7 @@ function Directories({directories}) {
         justify-content: center;
 
         img {
-            width: 60%;
+            width: 40%;
         }
     `
 
@@ -40,37 +66,56 @@ function Directories({directories}) {
         width: 75%;
         font-weight: 700;
         color: #FFFFFF;
-        font-size: 14px;
+        font-size: 12px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     `
 
-    console.log(directories)
-
     return (
         <>
             {(directories.subDirectory.length > 0) ? (
-                <DirectoryContainer
-                    initial={{
-                        backgroundColor: "#464950",
-                        cursor: "pointer"
-                    }}
-                    onClick={() => {
-                        setIsDirectoryExpanded(!isDirectoryExpanded)
-                    }}
-                >
-                    <ExpandButton>
-                        {(isDirectoryExpanded === true) ? (
-                            <img src={downArr}/>
-                        ) : (
-                            <img src={rightArr}/>
-                        )}
-                    </ExpandButton>
-                    <Text>{directories.name}</Text>
+                <DirectoryContainer>
+                    <ParentDirectory
+                        initial={{
+                            backgroundColor: "#464950",
+                            cursor: "pointer",
+                        }}
+                        onClick={() => {
+                            setIsDirectoryExpanded(!isDirectoryExpanded)
+                        }}
+                    >   
+                        <ParentDirectoryWrapper>
+                            {
+                                isSub && <SubDirectoryIndicator><hr></hr></SubDirectoryIndicator>
+                            }
+                            <ExpandButton>
+                                {(isDirectoryExpanded === true) ? (
+                                    <img src={downArr} />
+                                ) : (
+                                    <img src={rightArr} />
+                                )}
+                            </ExpandButton>
+                            <Text>{directories.name}</Text>
+                        </ParentDirectoryWrapper>
+                    </ParentDirectory>
+                    {(isDirectoryExpanded) && (
+                        <div 
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "7.5px",
+                            marginLeft: "5%",
+                        }}
+                        >
+                            {directories.subDirectory.map(items => (
+                                <Directories directories={items} isSub={true}/>
+                            ))}
+                        </div>
+                    )}
                 </DirectoryContainer>
             ) : (
-                <FileTab fileObj={directories}/>
+                <FileTab fileObj={directories} isSub={true}/>
             )}
         </>
     )
