@@ -34,7 +34,7 @@ function App() {
         console.log("Error: ", err)
       }
     }
-
+ 
     if (selectedFolderPath.length > 0) {
       output()
     }
