@@ -94,6 +94,8 @@ app.on("ready", () => {
         titleBarStyle: 'hidden',
         trafficLightPosition: {x:12.5, y:15},
         transparent: true,
+        minWidth: 600,
+        minHeight: 400,
         webPreferences: {
             preload: path.join(app.getAppPath() + '/src/electron/preload.js'),
             nodeIntegration: false,

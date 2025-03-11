@@ -4,13 +4,12 @@ import styled from "styled-components";
 import FileTab from "./FileTab";
 import Directories from "./Directories";
 
-function DirectoryTab({ selectedDirectory }) {
+function DirectoryTab({ selectedDirectory, sidebarWidth }) {
 
     const [selectedDirectoryObj, setSelectedDirectoryObj] = useState(selectedDirectory)
 
     const DirectoryTab = styled.div`
-        width: 100%;
-        min-width: ${(props) => props.sidebarWidth || '215px'};
+        min-width: ${props => props.width};
         scroll-snap-align: start;
         user-select: none;
     `
@@ -37,7 +36,7 @@ function DirectoryTab({ selectedDirectory }) {
 
 
     return (
-        <DirectoryTab>
+        <DirectoryTab width={sidebarWidth}>
             <Container>
                 <TabTitle>File</TabTitle>
                 <FileTree>

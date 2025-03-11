@@ -7,7 +7,7 @@ import fileIcon from './assets/file-icon.png'
 import folderIcon from './assets/folder-icon.png'
 
 function App() {
-  const [sidebarWidth, setSidebarWidth] = useState(215);
+  const [sidebarWidth, setSidebarWidth] = useState(250);
   const [selectedFolderPath, setSelectedFolderPath] = useState("")
   const [selectedFilePath, setSelectedFilePath] = useState("")
   const [selectedFolder, setSelectedFolder] = useState([])
@@ -148,6 +148,7 @@ function App() {
         animate={{
           opacity: 1,
           width: (selectedFilePath.length > 0 || selectedFolderPath.length > 0) ? `calc(100vw - ${sidebarWidth}px)` : '100vw',
+          margin: (selectedFilePath.length > 0 || selectedFolderPath.length > 0) ? `7.5px 7.5px 7.5px 7.5px ` : '50px 7.5px 7.5px 7.5px',
           transition: {
             ease: easeIn,
             duration: 0.5,
