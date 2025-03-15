@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import styled from "styled-components";
 
-function FileTab({ fileObj, isSub }) {
+function FileTab({ fileObj, isSub}) {
     const File = styled(motion.div)`
         width: 100%;
         height:30px;
@@ -38,8 +38,6 @@ function FileTab({ fileObj, isSub }) {
         padding: 0px;
     }
     `
-
-    console.log(fileObj)
 
     return (
         <File

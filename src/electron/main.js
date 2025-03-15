@@ -1,5 +1,5 @@
-import {app, BrowserWindow, Menu, dialog, ipcMain} from 'electron';
-import fs, { lstat, lstatSync, readdir, readdirSync} from 'fs'
+import { app, BrowserWindow, Menu, dialog, ipcMain } from 'electron';
+import fs, { lstat, lstatSync, readdir, readdirSync } from 'fs'
 import { walkSync } from '@nodesecure/fs-walk';
 import path, { sep } from "path";
 
@@ -18,7 +18,7 @@ app.on("ready", () => {
                     { type: 'separator' },
                     {
                         label: 'Check for Update',
-                        click: () => {console.log("Updates")}
+                        click: () => { console.log("Updates") }
                     },
                     { role: 'services' },
                     { type: 'separator' },
@@ -43,10 +43,10 @@ app.on("ready", () => {
                             if (!result.canceled) {
                                 const filePath = result.filePaths[0];  // Get the selected folder path
                                 mainWindow.webContents.send('fetch-selected-file', filePath)
-                                
-                              } else {
+
+                            } else {
                                 console.log('Folder selection was canceled');
-                              }
+                            }
                         }).catch(error => {
                             console.error('Error selecting folder:', err);
                         })
@@ -61,10 +61,10 @@ app.on("ready", () => {
                             if (!result.canceled) {
                                 const folderPath = result.filePaths[0];  // Get the selected folder path
                                 mainWindow.webContents.send('fetch-selected-directory', folderPath)
-                                
-                              } else {
+
+                            } else {
                                 console.log('Folder selection was canceled');
-                              }
+                            }
                         }).catch(error => {
                             console.error('Error selecting folder:', err);
                         })
@@ -85,17 +85,18 @@ app.on("ready", () => {
         }
     ]
 
-    
+
 
     const menu = Menu.buildFromTemplate(menuTemplate);
 
     const mainWindow = new BrowserWindow({
         // remove the default titlebar
         titleBarStyle: 'hidden',
-        trafficLightPosition: {x:12.5, y:15},
+        trafficLightPosition: { x: 12.5, y: 15 },
+        minWidth: 599,
+        minHeight: 399,
+        frame: false,
         transparent: true,
-        minWidth: 600,
-        minHeight: 400,
         webPreferences: {
             preload: path.join(app.getAppPath() + '/src/electron/preload.js'),
             nodeIntegration: false,
@@ -106,9 +107,9 @@ app.on("ready", () => {
     // Handling directory walks...
     const walkingDirectory = (dir) => {
         const result = [
-            
+
         ]
-        
+
         const files = readdirSync(dir)
 
         files.forEach((fileName) => {
@@ -120,7 +121,7 @@ app.on("ready", () => {
                     fileExtension: '',
                     subDirectory: walkingDirectory(filePath)
                 })
-            } else  {
+            } else {
                 result.push({
                     name: fileName,
                     path: filePath,
@@ -129,7 +130,7 @@ app.on("ready", () => {
                 })
             }
 
-            
+
         })
 
         return result
@@ -138,14 +139,14 @@ app.on("ready", () => {
 
     ipcMain.handle('dialog:openFileDialog', async () => {
         const result = await dialog.showOpenDialog(mainWindow, {
-          properties: ['openFile'],
+            properties: ['openFile'],
         });
         return result.filePaths;  // Return the selected file paths
     });
 
     ipcMain.handle('dialog:openDirectoryDialog', async () => {
         const result = await dialog.showOpenDialog(mainWindow, {
-          properties: ['openDirectory'],
+            properties: ['openDirectory'],
         });
         return result.filePaths;  // Return the selected file paths
     });
@@ -157,7 +158,8 @@ app.on("ready", () => {
                     name: path.basename(parentPath),
                     path: parentPath,
                     fileExtension: '',
-                    subDirectory: walkingDirectory(parentPath)
+                    subDirectory: walkingDirectory(parentPath),
+
                 }
             ]
             return result
@@ -166,7 +168,6 @@ app.on("ready", () => {
             return [];
         }
     });
-
 
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'));
     Menu.setApplicationMenu(menu);

@@ -7,6 +7,11 @@ import Directories from "./Directories";
 function DirectoryTab({ selectedDirectory, sidebarWidth }) {
 
     const [selectedDirectoryObj, setSelectedDirectoryObj] = useState(selectedDirectory)
+    const [activePath, setActivePath] = useState(selectedDirectory.length > 0 ? selectedDirectory[0].path : "")
+
+    const updateActivePath = (path) => {
+        setActivePath(path)
+    }
 
     const DirectoryTab = styled.div`
         min-width: ${props => props.width};
@@ -41,9 +46,12 @@ function DirectoryTab({ selectedDirectory, sidebarWidth }) {
                 <TabTitle>File</TabTitle>
                 <FileTree>
                     {selectedDirectoryObj.map(items => (
-                        <>
-                            <Directories directories={items}/>
-                        </>
+                        <Directories 
+                            key={items.path} 
+                            directories={items} 
+                            activePath={activePath} 
+                            updateActivePath={(value) => {console.log(value)}}
+                        />
                     ))}
                 </FileTree>
             </Container>

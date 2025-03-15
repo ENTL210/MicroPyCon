@@ -1,11 +1,11 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import FileTab from "./FileTab";
 import rightArr from "../../assets/right-arr.png"
 import downArr from "../../assets/down-arr.png"
 
-function Directories({ directories, isSub }) {
+function Directories({ directories, isSub, activePath, updateActivePath}) {
 
     const [isDirectoryExpanded, setIsDirectoryExpanded] = useState(false)
 
@@ -71,7 +71,6 @@ function Directories({ directories, isSub }) {
         overflow: hidden;
         text-overflow: ellipsis;
     `
-
     return (
         <>
             {(directories.subDirectory.length > 0) ? (
@@ -82,7 +81,14 @@ function Directories({ directories, isSub }) {
                             cursor: "pointer",
                         }}
                         onClick={() => {
-                            setIsDirectoryExpanded(!isDirectoryExpanded)
+                            if (isDirectoryExpanded === false) {
+                                setIsDirectoryExpanded(true)
+                            } else {
+                                setIsDirectoryExpanded(false)
+                            }
+                        }}
+                        animate={{
+                           
                         }}
                     >   
                         <ParentDirectoryWrapper>
@@ -109,7 +115,7 @@ function Directories({ directories, isSub }) {
                         }}
                         >
                             {directories.subDirectory.map(items => (
-                                <Directories directories={items} isSub={true}/>
+                                <Directories directories={items} isSub={true} key={items.path}/>
                             ))}
                         </div>
                     )}
