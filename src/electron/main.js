@@ -104,6 +104,8 @@ app.on("ready", () => {
         }
     });
 
+    var directory = []
+
     // Handling directory walks...
     const walkingDirectory = (dir) => {
         const result = [
@@ -119,14 +121,14 @@ app.on("ready", () => {
                     name: fileName,
                     path: filePath,
                     fileExtension: '',
-                    subDirectory: walkingDirectory(filePath)
+                    subDirectory: walkingDirectory(filePath),
                 })
             } else {
                 result.push({
                     name: fileName,
                     path: filePath,
                     fileExtension: path.extname(filePath),
-                    subDirectory: []
+                    subDirectory: [],
                 })
             }
 
@@ -159,15 +161,17 @@ app.on("ready", () => {
                     path: parentPath,
                     fileExtension: '',
                     subDirectory: walkingDirectory(parentPath),
-
                 }
             ]
+
+            directory = result
             return result
         } catch (err) {
             console.log("Errors trying to fetch directory contents: ", err)
             return [];
         }
     });
+
 
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'));
     Menu.setApplicationMenu(menu);

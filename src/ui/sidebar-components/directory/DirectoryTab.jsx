@@ -1,27 +1,25 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "motion/react";
 import styled from "styled-components";
-import FileTab from "./FileTab";
-import Directories from "./Directories";
+import FileTree from "./FileTree.jsx";
 
 function DirectoryTab({ selectedDirectory, sidebarWidth }) {
 
     const [selectedDirectoryObj, setSelectedDirectoryObj] = useState(selectedDirectory)
-    const [activePath, setActivePath] = useState(selectedDirectory.length > 0 ? selectedDirectory[0].path : "")
-
-    const updateActivePath = (path) => {
-        setActivePath(path)
-    }
 
     const DirectoryTab = styled.div`
-        min-width: ${props => props.width};
+        min-width: calc(${props => props.width} - 15px);
         scroll-snap-align: start;
         user-select: none;
+        padding: 0px 0px 10px 0px
     `
 
     const Container = styled.div`
         width: 100%;
-        margin: 0px 0px 0px 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 12.5px;
+        padding-left: 15px;
     `
 
     const TabTitle = styled.div`
@@ -29,31 +27,13 @@ function DirectoryTab({ selectedDirectory, sidebarWidth }) {
         color: #FFFFFF;
         font-size: 18px;
     `
-
-    const FileTree = styled(motion.div)`
-        width: 90%;
-        display: flex;
-        flex-direction: column;
-        gap: 7.5px;
-        margin: 10px 0px 0px 0px;
-    `
-
-
+    
 
     return (
         <DirectoryTab width={sidebarWidth}>
             <Container>
                 <TabTitle>File</TabTitle>
-                <FileTree>
-                    {selectedDirectoryObj.map(items => (
-                        <Directories 
-                            key={items.path} 
-                            directories={items} 
-                            activePath={activePath} 
-                            updateActivePath={(value) => {console.log(value)}}
-                        />
-                    ))}
-                </FileTree>
+                <FileTree directories={selectedDirectory}/>
             </Container>
         </DirectoryTab>
     )
