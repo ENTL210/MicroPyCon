@@ -77,7 +77,7 @@ function App() {
   `
 
   const WelcomePhraseWrapper = styled(motion.p)`
-    background: linear-gradient(45deg, #ff6347, #4CAF50, #1E90FF, #ff6347);
+    background: linear-gradient(45deg, #FF75C3, #FFA647, #FFE83F, #9FFF5B, #7EEBCE, #70E2FF);
     background-size: 400% 400%;
     color: transparent;
     -webkit-background-clip: text;
@@ -124,8 +124,8 @@ function App() {
       backgroundPosition: '100% 0%',
       transition: {
         delay: 0.5,
-        ease: 'linear',
-        duration: 2.5,
+        ease: 'easeInOut',
+        duration: 4,
         staggerChildren: 0.05,
         repeat: Infinity,  // Repeat the animation infinitely
         repeatType: 'mirror',
