@@ -93,8 +93,10 @@ app.on("ready", () => {
         // remove the default titlebar
         titleBarStyle: 'hidden',
         trafficLightPosition: { x: 12.5, y: 15 },
-        minWidth: 599,
-        minHeight: 399,
+        minWidth: 600,
+        minHeight: 400,
+        width: 1000,
+        height: 650,
         frame: false,
         transparent: true,
         webPreferences: {
