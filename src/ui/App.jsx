@@ -103,7 +103,6 @@ function App() {
     border: none;
     padding: 0;
     font: inherit;
-    cursor: pointer;
     outline: inherit;
     display: flex;
     flex-direction: column;
@@ -111,9 +110,11 @@ function App() {
     background-color: #464950;
     padding: 10px;
     border-radius: 50%;
+    
 
     img {
       width: 25px;
+      cursor: pointer;
     }
   `
 
@@ -212,7 +213,7 @@ function App() {
               </FileDialogLauncherBtn>
               <FileDialogLauncherBtn
                 whileHover={{
-                  backgroundColor: "rgba(46,150,255, 1)"
+                  backgroundColor: "rgba(46,150,255, 1)",
                 }}
                 onClick={async () => {
                   try {

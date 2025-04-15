@@ -92,10 +92,6 @@ function FileTree({ directories }) {
                     >
                         {item.subDirectory && item.subDirectory.length > 0 ? (
                             <ExpandBtn
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    handleToggleExpand(item.path)
-                                }}
                             >
                                 {expandedItems[item.path] ? '▼' : '▶'}
                             </ExpandBtn>
