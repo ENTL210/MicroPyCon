@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 import styled from "styled-components";
 import FileTree from "./FileTree.jsx";
 
-function DirectoryTab({ selectedDirectory, sidebarWidth }) {
+function DirectoryTab({ selectedDirectory, sidebarWidth, openedFilesArr}) {
 
     const [selectedDirectoryObj, setSelectedDirectoryObj] = useState(selectedDirectory)
 
@@ -11,7 +11,7 @@ function DirectoryTab({ selectedDirectory, sidebarWidth }) {
         min-width: calc(${props => props.width} - 15px);
         scroll-snap-align: start;
         user-select: none;
-        padding: 0px 0px 10px 0px
+        padding: 0px 0px 10px 0px;
     `
 
     const Container = styled.div`
@@ -33,7 +33,7 @@ function DirectoryTab({ selectedDirectory, sidebarWidth }) {
         <DirectoryTab width={sidebarWidth}>
             <Container>
                 <TabTitle>File</TabTitle>
-                <FileTree directories={selectedDirectory}/>
+                <FileTree directories={selectedDirectory} openedFilesArr={openedFilesArr}/>
             </Container>
         </DirectoryTab>
     )

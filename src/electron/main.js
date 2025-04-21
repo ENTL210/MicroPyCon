@@ -106,6 +106,8 @@ app.on("ready", () => {
         }
     });
 
+    mainWindow.webContents.openDevTools()
+
     var directory = []
 
     // Handling directory walks...

@@ -1,16 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react';
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
 import { easeIn, easeOut } from 'motion';
 import fileIcon from './assets/file-icon.png'
 import folderIcon from './assets/folder-icon.png'
+import { object } from 'motion/react-client';
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(250);
   const [selectedFolderPath, setSelectedFolderPath] = useState("")
   const [selectedFilePath, setSelectedFilePath] = useState("")
   const [selectedFolder, setSelectedFolder] = useState([])
+  const openedFilesArr = useRef([
+    {
+      name: 'README.md',
+      path: "/Users/edwardl210/Documents/Coding/CHS-Daily-Schedule-App/README.md",
+      fileExtension: '.md',
+      subDirectory: [],
+    }
+  ])
 
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
@@ -146,7 +155,7 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolder} />
+      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolder} openedFilesArr={openedFilesArr}/>
       <Main
         initial={{
           width: '100vw',

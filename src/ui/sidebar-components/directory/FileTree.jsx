@@ -3,9 +3,10 @@ import styled from "styled-components";
 import { motion } from "motion/react";
 
 
-function FileTree({ directories }) {
+function FileTree({ directories, openedFilesArr}) {
     const [expandedItems, setExpandedItems] = useState({})
     const [focusItem, setFocusedItem] = useState(null)
+
 
     const handleToggleExpand = (itemPath) => {
         setExpandedItems(prev => ({
@@ -24,6 +25,11 @@ function FileTree({ directories }) {
         // If it's a file...
         if (item.fileExtension) {
             setExpandedItems({})
+            openedFilesArr.current.some((items) => {
+                if (JSON.stringify(items) !== JSON.stringify(item)) {
+                    openedFilesArr.current = [...openedFilesArr.current, item]
+                } 
+            })
         }
     }
 
@@ -72,7 +78,6 @@ function FileTree({ directories }) {
         text-overflow: ellipsis;
     `
 
-    console.log(focusItem)
     return (
         <>
             {directories.map((item) => (
@@ -109,7 +114,7 @@ function FileTree({ directories }) {
                             marginLeft: "12.5px"
                         }}
                         >
-                            <FileTree directories={item.subDirectory}/>
+                            <FileTree directories={item.subDirectory} openedFilesArr={openedFilesArr}/>
                         </div>
                     )}
                 </FileTreeWrapper>
