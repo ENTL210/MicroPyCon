@@ -4,8 +4,12 @@ import fileIcon from '../assets/file-icon.png'
 import folderIcon from '../assets/folder-icon.png'
 import styled from 'styled-components'
 
+import { useDispatch, useSelector } from "react-redux";
+import { updateDirectoryPath } from "../../state/directory/directorySlice";
+
 
 function WelcomingScreen({setSelectedFilePath, setSelectedFolderPath }) {
+    const dispatch = useDispatch();
     const WelcomingScreen = styled(motion.div)`
     flex-grow: 1;
     width: 100%;
@@ -121,7 +125,7 @@ function WelcomingScreen({setSelectedFilePath, setSelectedFolderPath }) {
                         try {
                             const filePath = await window.electron.openFileDialog();
                             if (filePath.length > 0) {
-                                setSelectedFilePath(filePath)
+                                dispatch(updateDirectoryPath(filePath))
                             }
                         } catch (err) {
                             console.log("Failed to open dialog", err)
@@ -138,7 +142,7 @@ function WelcomingScreen({setSelectedFilePath, setSelectedFolderPath }) {
                         try {
                             const folderPath = await window.electron.openDirectoryDialog();
                             if (folderPath.length > 0) {
-                                setSelectedFolderPath(folderPath[0])
+                                dispatch(updateDirectoryPath(folderPath[0]))
                             }
                         } catch (err) {
                             console.log("Failed to open dialog", err)

@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { motion } from "motion/react";
 import styled from "styled-components";
 import FileTree from "./FileTree.jsx";
+import { useSelector } from "react-redux";
 
-function DirectoryTab({ selectedDirectory, sidebarWidth, openedFilesArr}) {
+function DirectoryTab({ selectedDirectory, sidebarWidth}) {
 
-    const [selectedDirectoryObj, setSelectedDirectoryObj] = useState(selectedDirectory)
+    const directoriesArr = useSelector(state => state.directories.directoriesArr)
+
 
     const DirectoryTab = styled.div`
         min-width: calc(${props => props.width} - 15px);
@@ -33,7 +35,7 @@ function DirectoryTab({ selectedDirectory, sidebarWidth, openedFilesArr}) {
         <DirectoryTab width={sidebarWidth}>
             <Container>
                 <TabTitle>File</TabTitle>
-                <FileTree directories={selectedDirectory} openedFilesArr={openedFilesArr}/>
+                <FileTree directories={directoriesArr}/>
             </Container>
         </DirectoryTab>
     )

@@ -1,8 +1,10 @@
 import styled from "styled-components";
 import { motion } from "motion/react";
 import DirectoryTab from "./directory/DirectoryTab";
+import { memo } from "react";
+import { useSelector } from "react-redux";
 
-function Sidebar({sidebarWidth, selectedDirectory, openedFilesArr}) {
+function Sidebar({sidebarWidth}) {
     const Sidebar = styled(motion.div)`
     position: relative;
     margin: 50px 0px 7.5px 0;
@@ -16,6 +18,8 @@ function Sidebar({sidebarWidth, selectedDirectory, openedFilesArr}) {
     font-weight: 700;
     `
 
+    const directoriesArr = useSelector(state => state.directories.directoriesArr)
+
 
     return(
         <Sidebar
@@ -24,10 +28,10 @@ function Sidebar({sidebarWidth, selectedDirectory, openedFilesArr}) {
             padding: '0px'
         }}
         animate={{
-            width: (selectedDirectory.length > 0) ? sidebarWidth : '0px'
+            width: (directoriesArr.length > 0) ? sidebarWidth : '0px'
         }}
         >
-            <DirectoryTab sidebarWidth={sidebarWidth} selectedDirectory={selectedDirectory} openedFilesArr={openedFilesArr}/>
+            <DirectoryTab sidebarWidth={sidebarWidth}/>
         </Sidebar>
     )
 }

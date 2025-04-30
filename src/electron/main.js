@@ -1,12 +1,24 @@
 import { app, BrowserWindow, Menu, dialog, ipcMain } from 'electron';
+import { installExtension, REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
 import fs, { lstat, lstatSync, readdir, readdirSync } from 'fs'
 import { walkSync } from '@nodesecure/fs-walk';
 import path, { sep } from "path";
 
-app.on("ready", () => {
+
+app.on("ready", async () => {
+    try {
+        const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]
+        for (const extension of extensions) {
+            const name = await installExtension(extension)
+            console.log(`Added Extension: ${name}`)
+        }
+
+    } catch (err) {
+        console.log('An error occured while installing extensions', err)
+    }
+
     // Check if this is Mac...
     const isMac = process.platform === 'darwin'
-
     // Menu's Template
     const menuTemplate = [
         // { role: 'appMenu'}
@@ -80,6 +92,12 @@ app.on("ready", () => {
                     click: () => {
                         mainWindow.webContents.toggleDevTools(); // Toggle DevTools
                     },
+                },
+                {
+                    role: 'reload'
+                },
+                {
+                    role: 'forceReload'
                 }
             ]
         }
@@ -106,7 +124,7 @@ app.on("ready", () => {
         }
     });
 
-    mainWindow.webContents.openDevTools()
+
 
     var directory = []
 
@@ -159,17 +177,18 @@ app.on("ready", () => {
 
     ipcMain.handle('get-directory-contents', async (event, parentPath) => {
         try {
+            const stat = fs.lstatSync(parentPath)
             const result = [
                 {
                     name: path.basename(parentPath),
                     path: parentPath,
                     fileExtension: '',
-                    subDirectory: walkingDirectory(parentPath),
+                    subDirectory: stat.isDirectory() ? walkingDirectory(parentPath) : []
                 }
             ]
-
-            directory = result
             return result
+
+
         } catch (err) {
             console.log("Errors trying to fetch directory contents: ", err)
             return [];
@@ -177,6 +196,11 @@ app.on("ready", () => {
     });
 
 
+
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'));
     Menu.setApplicationMenu(menu);
+    mainWindow.webContents.on("dom-ready", () => {
+        mainWindow.webContents.openDevTools()
+    })
+
 })

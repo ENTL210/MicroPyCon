@@ -13,9 +13,12 @@
   },
   "dependencies": {
     "@nodesecure/fs-walk": "^2.0.0",
+    "@reduxjs/toolkit": "^2.7.0",
     "motion": "^12.4.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1",
     "styled-components": "^6.1.15"
   },
   "devDependencies": {
@@ -24,6 +27,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "electron": "^34.0.2",
+    "electron-devtools-installer": "^4.0.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",

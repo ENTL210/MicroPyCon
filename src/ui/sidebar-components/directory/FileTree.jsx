@@ -1,9 +1,11 @@
-import { React, useState } from "react";
+import { memo, React, useState } from "react";
 import styled from "styled-components";
 import { motion } from "motion/react";
+import { useDispatch } from "react-redux";
 
 
-function FileTree({ directories, openedFilesArr}) {
+function FileTree({ directories}) {
+    const dispatch = useDispatch()
     const [expandedItems, setExpandedItems] = useState({})
     const [focusItem, setFocusedItem] = useState(null)
 
@@ -25,12 +27,9 @@ function FileTree({ directories, openedFilesArr}) {
         // If it's a file...
         if (item.fileExtension) {
             setExpandedItems({})
-            openedFilesArr.current.some((items) => {
-                if (JSON.stringify(items) !== JSON.stringify(item)) {
-                    openedFilesArr.current = [...openedFilesArr.current, item]
-                } 
-            })
+            
         }
+
     }
 
     const FileTreeWrapper = styled(motion.div)`
@@ -114,7 +113,7 @@ function FileTree({ directories, openedFilesArr}) {
                             marginLeft: "12.5px"
                         }}
                         >
-                            <FileTree directories={item.subDirectory} openedFilesArr={openedFilesArr}/>
+                            <FileTree directories={item.subDirectory}/>
                         </div>
                     )}
                 </FileTreeWrapper>

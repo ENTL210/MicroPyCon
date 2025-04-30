@@ -1,51 +1,41 @@
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useEffect } from 'react'
+import { motion } from 'motion/react';
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
-import { easeIn, easeOut } from 'motion';
+import { easeIn } from 'motion';
 import WelcomingScreen from './main-component/WelcomingScreen';
+import TabBar from './main-component/TabBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
+
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(250);
-  const [selectedFolderPath, setSelectedFolderPath] = useState("")
-  const [selectedFilePath, setSelectedFilePath] = useState("")
-  const [selectedFolder, setSelectedFolder] = useState([])
-  const openedFilesArr = useRef([
-    {
-      name: 'README.md',
-      path: "/Users/edwardl210/Documents/Coding/CHS-Daily-Schedule-App/README.md",
-      fileExtension: '.md',
-      subDirectory: [],
-    }
-  ])
-
+  const dispatch = useDispatch()
+  const directoryPath = useSelector(state => state.directories.directoryPath)
+  
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
-      setSelectedFolderPath("")
-      setSelectedFolderPath(path)
+      dispatch(updateDirectoryPath(path))
 
     });
     window.electron.onFetchSelectedFile((event, path) => {
-      setSelectedFolderPath("")
-      setSelectedFilePath(path)
+      dispatch(updateDirectoryPath(path))
     })
   })
 
-  useEffect(() => {
+  if (directoryPath.length > 0) {
     async function output() {
       try {
-        const files = await window.electron.getDirectoryContents(selectedFolderPath);
-        setSelectedFolder(files)
+        const files = await window.electron.getDirectoryContents(directoryPath)
+        dispatch(updateDirectoriesArr(files))
       } catch (err) {
-        console.log("Error: ", err)
+        console.log("An error occured while retrieving contents", err)
       }
     }
 
-    if (selectedFolderPath.length > 0) {
-      output()
-    }
-
-  }, [selectedFolderPath])
+    output()
+  }
 
 
   const RootContainer = styled.div`
@@ -75,7 +65,7 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`} selectedDirectory={selectedFolder} openedFilesArr={openedFilesArr}/>
+      <Sidebar sidebarWidth={`${sidebarWidth}px`}/>
       <Main
         initial={{
           width: '100vw',
@@ -83,8 +73,8 @@ function App() {
         }}
         animate={{
           opacity: 1,
-          width: (selectedFilePath.length > 0 || selectedFolderPath.length > 0) ? `calc(100vw - ${sidebarWidth}px)` : '100vw',
-          margin: (selectedFilePath.length > 0 || selectedFolderPath.length > 0) ? `7.5px 7.5px 7.5px 7.5px ` : '50px 7.5px 7.5px 7.5px',
+          width: (directoryPath.length > 0) ? `calc(100vw - ${sidebarWidth}px)` : '100vw',
+          margin: (directoryPath.length > 0) ? `50x 7.5px 7.5px 7.5px ` : '50px 7.5px 7.5px 7.5px',
           transition: {
             ease: easeIn,
             duration: 0.5,
@@ -92,9 +82,8 @@ function App() {
         }}
       >
 
-
-        {(selectedFilePath.length == 0 && selectedFolderPath.length == 0) && (
-          <WelcomingScreen setSelectedFilePath={setSelectedFilePath} setSelectedFolderPath={setSelectedFolderPath}/>
+        {(directoryPath.length === 0) && (
+          <WelcomingScreen/>
         )}
 
       </Main>
