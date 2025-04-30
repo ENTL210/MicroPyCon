@@ -2,6 +2,7 @@ import { memo, React, useState } from "react";
 import styled from "styled-components";
 import { motion } from "motion/react";
 import { useDispatch } from "react-redux";
+import { addActivedFilesArr } from "../../../state/directory/directorySlice";
 
 
 function FileTree({ directories}) {
@@ -27,7 +28,7 @@ function FileTree({ directories}) {
         // If it's a file...
         if (item.fileExtension) {
             setExpandedItems({})
-            
+            dispatch(addActivedFilesArr(item))
         }
 
     }

@@ -13,7 +13,7 @@ function App() {
   const [sidebarWidth, setSidebarWidth] = useState(250);
   const dispatch = useDispatch()
   const directoryPath = useSelector(state => state.directories.directoryPath)
-  
+
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
       dispatch(updateDirectoryPath(path))
@@ -65,7 +65,7 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`}/>
+      <Sidebar sidebarWidth={`${sidebarWidth}px`} />
       <Main
         initial={{
           width: '100vw',
@@ -83,9 +83,10 @@ function App() {
       >
 
         {(directoryPath.length === 0) && (
-          <WelcomingScreen/>
+          <WelcomingScreen />
         )}
 
+        <TabBar/>
       </Main>
     </RootContainer>
   )
