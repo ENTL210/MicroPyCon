@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateDirectoryPath } from "../../state/directory/directorySlice";
 
 
-function WelcomingScreen({setSelectedFilePath, setSelectedFolderPath }) {
+function WelcomingScreen() {
     const dispatch = useDispatch();
     const WelcomingScreen = styled(motion.div)`
     flex-grow: 1;

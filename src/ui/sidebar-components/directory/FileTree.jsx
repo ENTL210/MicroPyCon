@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addActivedFilesArr } from "../../../state/directory/directorySlice";
 
 
-function FileTree({ directories}) {
+function FileTree({directories}) {
     const dispatch = useDispatch()
     const [expandedItems, setExpandedItems] = useState({})
     const [focusItem, setFocusedItem] = useState(null)

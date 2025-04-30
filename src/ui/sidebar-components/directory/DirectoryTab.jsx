@@ -4,7 +4,7 @@ import styled from "styled-components";
 import FileTree from "./FileTree.jsx";
 import { useSelector } from "react-redux";
 
-function DirectoryTab({ selectedDirectory, sidebarWidth}) {
+function DirectoryTab({sidebarWidth}) {
 
     const directoriesArr = useSelector(state => state.directories.directoriesArr)
 

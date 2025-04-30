@@ -4,7 +4,7 @@ import { motion } from "motion/react";
 import { useSelector } from "react-redux";
 
 function TabBar() {
-    const Wrapper = motion(styled.div)`
+    const Wrapper = styled(motion.div)`
     width: 100%;
     
     `
