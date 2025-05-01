@@ -59,8 +59,9 @@ function App() {
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  padding: 20px;
   `
 
   return (
@@ -77,7 +78,7 @@ function App() {
           margin: (directoryPath.length > 0) ? `50x 7.5px 7.5px 7.5px ` : '50px 7.5px 7.5px 7.5px',
           transition: {
             ease: easeIn,
-            duration: 0.5,
+            duration: 0.75,
           }
         }}
       >
