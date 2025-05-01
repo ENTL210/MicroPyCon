@@ -157,6 +157,10 @@ app.on("ready", async () => {
 
         })
 
+        
+        result.sort((a,b) => b.subDirectory.length - a.subDirectory.length)
+        
+
         return result
     }
 
@@ -186,6 +190,7 @@ app.on("ready", async () => {
                     subDirectory: stat.isDirectory() ? walkingDirectory(parentPath) : []
                 }
             ]
+            
             return result
 
 
