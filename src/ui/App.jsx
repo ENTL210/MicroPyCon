@@ -6,13 +6,14 @@ import { easeIn } from 'motion';
 import WelcomingScreen from './main-component/WelcomingScreen';
 import TabBar from './main-component/TabBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
+import { resetActivedFilesArr, updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
 
 
 function App() {
   const [sidebarWidth, setSidebarWidth] = useState(250);
   const dispatch = useDispatch()
   const directoryPath = useSelector(state => state.directories.directoryPath)
+
 
   useEffect(() => {
     window.electron.onFetchSelectedDirectory((event, path) => {
@@ -22,6 +23,7 @@ function App() {
     window.electron.onFetchSelectedFile((event, path) => {
       dispatch(updateDirectoryPath(path))
     })
+    dispatch(resetActivedFilesArr())
   })
 
   if (directoryPath.length > 0) {

@@ -42,6 +42,7 @@ function TabBar() {
     `
 
     const activedFiles = useSelector(state => state.directories.activedFilesArr)
+    console.log(activedFiles)
 
     return (
         <>
@@ -60,7 +61,7 @@ function TabBar() {
                 >
                     {activedFiles.map(items => {
                         return (
-                            <Tab
+                            <Tab key={items.path}
                             whileHover={{
                                 background: "#2e96ff"
                             }}

@@ -19,6 +19,7 @@ function FileTree({directories}) {
     }
 
     const handleItemClick = (item) => {
+        console.log(item)
         setFocusedItem(item.path)
         // If it's a folder...
         if (item.subDirectory && item.subDirectory.length > 0) {

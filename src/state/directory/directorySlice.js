@@ -25,10 +25,13 @@ export const directorySlice = createSlice({
             if (!isAlreadyExist) {
                 state.activedFilesArr = [...state.activedFilesArr, payload]
             }
+        },
+        resetActivedFilesArr: (state) => {
+            state.activedFilesArr = []
         }
     }
 })
 
-export const {updateDirectoryPath, updateDirectoriesArr, addActivedFilesArr} = directorySlice.actions
+export const {updateDirectoryPath, updateDirectoriesArr, addActivedFilesArr, resetActivedFilesArr} = directorySlice.actions
 
 export default directorySlice.reducer

@@ -125,7 +125,7 @@ function WelcomingScreen() {
                         try {
                             const filePath = await window.electron.openFileDialog();
                             if (filePath.length > 0) {
-                                dispatch(updateDirectoryPath(filePath))
+                                dispatch(updateDirectoryPath(filePath[0]))
                             }
                         } catch (err) {
                             console.log("Failed to open dialog", err)

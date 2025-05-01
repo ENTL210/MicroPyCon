@@ -186,7 +186,7 @@ app.on("ready", async () => {
                 {
                     name: path.basename(parentPath),
                     path: parentPath,
-                    fileExtension: '',
+                    fileExtension: stat.isDirectory() ? '' : path.extname(parentPath),
                     subDirectory: stat.isDirectory() ? walkingDirectory(parentPath) : []
                 }
             ]
