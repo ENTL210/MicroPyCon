@@ -50,6 +50,7 @@ function FileTree({directories}) {
         border-radius: 5px;
         padding: 0px 0px 0px 10px;
         cursor: pointer;
+        
     `
 
     const ExpandBtn = styled(motion.button)`

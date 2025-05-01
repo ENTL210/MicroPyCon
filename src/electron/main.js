@@ -161,7 +161,7 @@ app.on("ready", async () => {
         result.sort((a,b) => b.subDirectory.length - a.subDirectory.length)
         
 
-        return result
+        return result.filter(items => items.name !== ".DS_Store" && items.name !== ".git")
     }
 
 

@@ -22,6 +22,7 @@ function TabBar() {
         min-width: 200px;
         background: rgba(42,42,42,0.75);
         backdrop-filter: blur(10px) saturate(180%);
+        box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 255, 255, 255, 0.20 );
         border-radius: 5px;
         border: 1px solid rgba(255, 255, 255, 0.125);
         display: flex;
