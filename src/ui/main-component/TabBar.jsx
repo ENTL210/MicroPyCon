@@ -28,6 +28,7 @@ function TabBar() {
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        user-select: none;
     `
 
     const Text = styled.h1`
