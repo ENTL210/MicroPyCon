@@ -19,7 +19,6 @@ function FileTree({directories}) {
     }
 
     const handleItemClick = (item) => {
-        console.log(item)
         setFocusedItem(item.path)
         // If it's a folder...
         if (item.subDirectory && item.subDirectory.length > 0) {
@@ -42,7 +41,7 @@ function FileTree({directories}) {
     `
 
     const FileTreeItem = styled(motion.div)`
-        width: 89%;
+        width: 82%;
         display: flex;
         flex-direction: row;
         gap: 7.5px;
@@ -113,7 +112,7 @@ function FileTree({directories}) {
                             display: "flex",
                             flexDirection: "column",
                             gap: "10px",
-                            marginLeft: "12.5px"
+                            marginLeft: "7.5px"
                         }}
                         >
                             <FileTree directories={item.subDirectory}/>

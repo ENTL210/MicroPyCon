@@ -1,7 +1,8 @@
-import React from "react";
+import {React, useEffect, useRef} from "react";
 import styled from "styled-components";
 import { motion, easeIn } from "motion/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
 
 function TabBar() {
     const Wrapper = styled(motion.div)`
@@ -41,32 +42,43 @@ function TabBar() {
         text-overflow: ellipsis;
     `
 
+    const dispatch = useDispatch()
+    const containerRef = useRef(null)
+    const lastScrollPositionRef = useRef(0)
+
     const activedFiles = useSelector(state => state.directories.activedFilesArr)
-    console.log(activedFiles)
+
+    useEffect(() => {
+        if (containerRef.current) {
+            containerRef.current.scrollLeft = lastScrollPositionRef.current 
+        }
+    }, [activedFiles])
 
     return (
         <>
             {(activedFiles.length > 0) && (
                 <Wrapper
-                    initial={{
-                        opacity: 0,
-                    }}
-                    animate={{
-                        opacity: 1,
-                    }}
-                    transition={{
-                        ease: easeIn,
-                        duration: 0.25,
-                    }}
+                    ref={containerRef}
                 >
-                    {activedFiles.map(items => {
+                    {activedFiles.map(item => {
                         return (
-                            <Tab key={items.path}
+                            <Tab key={item.path}
+                            animate={{
+                                background: item.active ? "#2e96ff" : "rgba(42,42,42,0.75)",
+                                minWidth: (item.active && activedFiles.length > 1) ? "300px" : "200px"
+                            }}
                             whileHover={{
                                 background: "#2e96ff"
                             }}
+                            onClick={() => {
+                                if (containerRef.current) {
+                                    lastScrollPositionRef.current = containerRef.current.scrollLeft 
+                                }
+
+                                dispatch(updateActiveStatusOfActivedFiles(item))
+                            }}
                             >
-                                <Text>{items.name}</Text>
+                                <Text>{item.name}</Text>
                             </Tab>
                         )
                     })}
