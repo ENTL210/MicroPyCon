@@ -21,12 +21,13 @@ function TabBar() {
 
     const Tab = styled(motion.div)`
         min-width: ${props => props.isActive ? "300px" : "200px"};
-        background: ${props => props.isActive ? "#2e96ff" : "rgba(18, 18, 18, 0.45)"}; 
+        background: ${props => props.isActive ? "#2e96ff" : "rgba(255, 255, 255, 0.08)"}; 
         backdrop-filter: blur(50px) saturate(180%);
         -webkit-backdrop-filter: blur(50px) saturate(180%);
         box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, .18);
         border-radius: 5px;
-        border: 1.2px solid rgba(255, 255, 255, .3);
+        padding: 2.5px 0px;
         display: flex;
         flex-direction: row;
         align-items: center;

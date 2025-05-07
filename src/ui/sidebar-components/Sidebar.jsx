@@ -17,6 +17,7 @@ function Sidebar({sidebarWidth}) {
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     font-weight: 700;
+    overflow-y: hidden
     `
 
     const directoriesArr = useSelector(state => state.directories.directoriesArr)

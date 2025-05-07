@@ -15,6 +15,7 @@ function DirectoryTab({sidebarWidth}) {
         user-select: none;
         padding: 0px 0px 10px 0px;
         margin: 50px 0px 0px 0px;
+        overflow-y: auto;
     `
 
     const Container = styled.div`
