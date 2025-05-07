@@ -20,8 +20,8 @@ function TabBar() {
     `
 
     const Tab = styled(motion.div)`
-        min-width: 200px;
-        background: rgba(18, 18, 18, 0.45); 
+        min-width: ${props => props.isActive ? "300px" : "200px"};
+        background: ${props => props.isActive ? "#2e96ff" : "rgba(18, 18, 18, 0.45)"}; 
         backdrop-filter: blur(50px) saturate(180%);
         -webkit-backdrop-filter: blur(50px) saturate(180%);
         box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
@@ -32,6 +32,7 @@ function TabBar() {
         align-items: center;
         justify-content: center;
         user-select: none;
+        cursor: pointer;
     `
 
     const Text = styled.h1`
@@ -63,11 +64,7 @@ function TabBar() {
                 >
                     {activedFiles.map(item => {
                         return (
-                            <Tab key={item.path}
-                            animate={{
-                                background: item.active ? "#2e96ff" : "rgba(42,42,42,0.75)",
-                                minWidth: (item.active) ? "300px" : "200px"
-                            }}
+                            <Tab key={item.path} isActive={item.active}
                             whileHover={{
                                 background: "#2e96ff"
                             }}

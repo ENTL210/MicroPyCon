@@ -42,6 +42,11 @@ function FileTree({directories}) {
 
     const FileTreeItem = styled(motion.div)`
         width: 90%;
+        background: rgba( 255, 255, 255, 0.08);
+        backdrop-filter: blur(50px) saturate(180%);
+        -webkit-backdrop-filter: blur(50px) saturate(180%);
+        box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, .18);
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
@@ -49,7 +54,7 @@ function FileTree({directories}) {
         align-items: center;
         justify-content: flex-start;
         border-radius: 5px;
-        padding: 0px 0px 0px 10px;
+        padding: 1.25px 0px 1.25px 10px;
         cursor: pointer;
         
     `
@@ -90,11 +95,8 @@ function FileTree({directories}) {
                         onClick={(e) => {
                             handleItemClick(item)
                         }}
-                        initial={{
-                            background: "#464950",
-                        }}
                         animate={{
-                            background: focusItem == item.path ? "#2e96ff" : "#464950"
+                            background: focusItem == item.path ? "#2e96ff" : "rgba( 255, 255, 255, 0.08 )"
                         }}
                     >
                         {item.subDirectory && item.subDirectory.length > 0 ? (
