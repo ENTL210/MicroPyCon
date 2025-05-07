@@ -1,13 +1,12 @@
-import {React, useEffect, useRef} from "react";
+import {React, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import { motion, easeIn } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
+import { deleteActiveFileArr, updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
 
 function TabBar() {
     const Wrapper = styled(motion.div)`
         width: 100%;
-        height: 40px;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -20,18 +19,19 @@ function TabBar() {
     `
 
     const Tab = styled(motion.div)`
-        min-width: ${props => props.isActive ? "300px" : "200px"};
+        min-width: 200px;
         background: ${props => props.isActive ? "#2e96ff" : "rgba(255, 255, 255, 0.08)"}; 
         backdrop-filter: blur(50px) saturate(180%);
         -webkit-backdrop-filter: blur(50px) saturate(180%);
         box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, .18);
         border-radius: 5px;
-        padding: 2.5px 0px;
+        padding: 2.5px 10px;
+        box-sizing: border-box;
         display: flex;
         flex-direction: row;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
         user-select: none;
         cursor: pointer;
     `
@@ -45,11 +45,23 @@ function TabBar() {
         text-overflow: ellipsis;
     `
 
+    const CloseBtn = styled(motion.svg)`
+        width: 12px;
+        height: 12px;
+        padding: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        stroke: #FFFFFF;
+    `
+
+
+
     const dispatch = useDispatch()
     const containerRef = useRef(null)
     const lastScrollPositionRef = useRef(0)
 
     const activedFiles = useSelector(state => state.directories.activedFilesArr)
+    const [hoverItem, setHoverItem] = useState({})
 
     useEffect(() => {
         if (containerRef.current) {
@@ -69,6 +81,12 @@ function TabBar() {
                             whileHover={{
                                 background: "#2e96ff"
                             }}
+                            onHoverStart={() => {
+                                setHoverItem(item)
+                            }}
+                            onHoverEnd={() => {
+                                setHoverItem({})
+                            }}
                             onClick={() => {
                                 if (containerRef.current) {
                                     lastScrollPositionRef.current = containerRef.current.scrollLeft
@@ -78,6 +96,19 @@ function TabBar() {
                             }}
                             >
                                 <Text>{item.name}</Text>
+
+                                {(item.active === true || JSON.stringify(item) === JSON.stringify(hoverItem)) && (
+                                    <CloseBtn viewBox="0 0 10 10"
+                                    whileHover={{
+                                        background: "rgba(18,18,18, 0.15)"
+                                    }}
+                                    onClick={() => {
+                                        dispatch(deleteActiveFileArr(item))
+                                    }}
+                                    >
+                                        <path d="M1 1 L9 9 M9 1 L1 9" strokeWidth="1" />
+                                    </CloseBtn>
+                                )}
                             </Tab>
                         )
                     })}

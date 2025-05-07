@@ -98,6 +98,9 @@ function FileTree({directories}) {
                         animate={{
                             background: focusItem == item.path ? "#2e96ff" : "rgba( 255, 255, 255, 0.08 )"
                         }}
+                        whileHover={{
+                            background: "#2e96ff"
+                        }}
                     >
                         {item.subDirectory && item.subDirectory.length > 0 ? (
                             <ExpandBtn

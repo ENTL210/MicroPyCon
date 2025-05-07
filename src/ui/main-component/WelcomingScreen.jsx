@@ -40,7 +40,7 @@ function WelcomingScreen() {
     `
 
     const FileDialogLauncherBtn = styled(motion.button)`
-    background: rgba(18, 18, 18, 0.2); 
+    background: rgba(18, 18, 18, 1); 
     box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
     border: 1.2px solid rgba(255, 255, 255, .3);
     border-radius: 5px;
