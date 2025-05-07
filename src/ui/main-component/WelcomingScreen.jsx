@@ -1,7 +1,5 @@
 import React from "react";
 import { motion, AnimatePresence, easeIn, easeOut} from 'motion/react';
-import fileIcon from '../assets/file-icon.png'
-import folderIcon from '../assets/folder-icon.png'
 import styled from 'styled-components'
 
 import { useDispatch, useSelector } from "react-redux";
@@ -43,11 +41,10 @@ function WelcomingScreen() {
 
     const FileDialogLauncherBtn = styled(motion.button)`
     background: rgba(18, 18, 18, 0.2); 
-    backdrop-filter: blur(50px) saturate(180%);
-    border-radius: 50%;
     box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
     border: 1.2px solid rgba(255, 255, 255, .3);
-    -webkit-backdrop-filter: blur(50px) saturate(180%);
+    border-radius: 5px;
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
     color: inherit;
     font: inherit;
     outline: inherit;
@@ -55,12 +52,15 @@ function WelcomingScreen() {
     flex-direction: column;
     align-items: center;
     padding: 10px;
+    `
 
-
-    img {
-    width: 25px;
-    cursor: pointer;
-    }
+    const Text = styled.h1`
+    font-weight: 700;
+    color: #FFFFFF;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     `
 
     const WelcomePhraseAnimation = {
@@ -133,7 +133,7 @@ function WelcomingScreen() {
                         }
                     }}
                 >
-                    <img src={fileIcon} alt="" />
+                    <Text>Open a File</Text> 
                 </FileDialogLauncherBtn>
                 <FileDialogLauncherBtn
                     whileHover={{
@@ -150,7 +150,7 @@ function WelcomingScreen() {
                         }
                     }}
                 >
-                    <img src={folderIcon} alt="" />
+                    <Text>Open a Folder</Text> 
                 </FileDialogLauncherBtn>
             </FileDialogLauncherWrapper>
         </WelcomingScreen>
