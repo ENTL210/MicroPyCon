@@ -42,18 +42,19 @@ function WelcomingScreen() {
     `
 
     const FileDialogLauncherBtn = styled(motion.button)`
-    background: none;
+    background: rgba(18, 18, 18, 0.2); 
+    backdrop-filter: blur(50px) saturate(180%);
+    border-radius: 50%;
+    box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
+    border: 1.2px solid rgba(255, 255, 255, .3);
+    -webkit-backdrop-filter: blur(50px) saturate(180%);
     color: inherit;
-    border: none;
-    padding: 0;
     font: inherit;
     outline: inherit;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #464950;
     padding: 10px;
-    border-radius: 50%;
 
 
     img {

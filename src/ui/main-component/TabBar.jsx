@@ -21,11 +21,12 @@ function TabBar() {
 
     const Tab = styled(motion.div)`
         min-width: 200px;
-        background: rgba(42,42,42,0.75);
-        backdrop-filter: blur(10px) saturate(180%);
-        box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 255, 255, 255, 0.20 );
+        background: rgba(18, 18, 18, 0.45); 
+        backdrop-filter: blur(50px) saturate(180%);
+        -webkit-backdrop-filter: blur(50px) saturate(180%);
+        box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
         border-radius: 5px;
-        border: 1px solid rgba(255, 255, 255, 0.125);
+        border: 1.2px solid rgba(255, 255, 255, .3);
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -65,14 +66,14 @@ function TabBar() {
                             <Tab key={item.path}
                             animate={{
                                 background: item.active ? "#2e96ff" : "rgba(42,42,42,0.75)",
-                                minWidth: (item.active && activedFiles.length > 1) ? "300px" : "200px"
+                                minWidth: (item.active) ? "300px" : "200px"
                             }}
                             whileHover={{
                                 background: "#2e96ff"
                             }}
                             onClick={() => {
                                 if (containerRef.current) {
-                                    lastScrollPositionRef.current = containerRef.current.scrollLeft 
+                                    lastScrollPositionRef.current = containerRef.current.scrollLeft
                                 }
 
                                 dispatch(updateActiveStatusOfActivedFiles(item))

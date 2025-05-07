@@ -14,6 +14,7 @@ function DirectoryTab({sidebarWidth}) {
         scroll-snap-align: start;
         user-select: none;
         padding: 0px 0px 10px 0px;
+        margin: 50px 0px 0px 0px;
     `
 
     const Container = styled.div`

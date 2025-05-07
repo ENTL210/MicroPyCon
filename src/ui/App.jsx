@@ -41,10 +41,10 @@ function App() {
 
 
   const RootContainer = styled.div`
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  backdrop-filter: blur(16px) saturate(180%);
-  background-color: rgba(42, 42, 42, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.125);
+  background: rgba(18, 18, 18, 0.65); 
+  backdrop-filter: blur(19.5px) saturate(180%);
+  -webkit-backdrop-filter: blur(19.5px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 9px;
   width: 100%;
   height: 100vh;
@@ -57,8 +57,7 @@ function App() {
   `
 
   const Main = styled(motion.div)`
-  background-color: rgb(35,35,35);
-  border-radius: 10px;
+  border-radius: 0px 9px 9px 0px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -72,7 +71,6 @@ function App() {
       <Main
         initial={{
           width: '100vw',
-          margin: '50px 7.5px 7.5px 7.5px',
         }}
         animate={{
           opacity: 1,

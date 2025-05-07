@@ -34,14 +34,15 @@ function FileTree({directories}) {
     }
 
     const FileTreeWrapper = styled(motion.div)`
-        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 10px;
+        box-sizing: border-box; /* Ensures padding doesn't affect total width */
     `
 
     const FileTreeItem = styled(motion.div)`
-        width: 82%;
+        width: 90%;
+        box-sizing: border-box;
         display: flex;
         flex-direction: row;
         gap: 7.5px;
@@ -107,16 +108,13 @@ function FileTree({directories}) {
                         <Text>{item.name}</Text>
                     </FileTreeItem>
                     {item.subDirectory && expandedItems[item.path] && (
-                        <div
-                        style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "10px",
-                            marginLeft: "7.5px"
-                        }}
+                        <FileTreeWrapper 
+                            style={{
+                                marginLeft: "7.5px"
+                            }}
                         >
                             <FileTree directories={item.subDirectory}/>
-                        </div>
+                        </FileTreeWrapper>
                     )}
                 </FileTreeWrapper>
 

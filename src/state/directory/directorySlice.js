@@ -19,7 +19,8 @@ export const directorySlice = createSlice({
             const payload = {...action.payload, active: false}
 
             const isAlreadyExist = state.activedFilesArr.some((items) => {
-                return JSON.stringify(items) === JSON.stringify(payload)
+                const existingFiles = {...items, active: false}
+                return JSON.stringify(existingFiles) === JSON.stringify(payload)
             })
 
             if (!isAlreadyExist) {

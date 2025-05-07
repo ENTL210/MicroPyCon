@@ -7,7 +7,8 @@ import { useSelector } from "react-redux";
 function Sidebar({sidebarWidth}) {
     const Sidebar = styled(motion.div)`
     position: relative;
-    margin: 50px 0px 7.5px 0;
+    margin: 0px 0px 7.5px 0;
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
     padding:5px;
     color:black;
     display: flex;
