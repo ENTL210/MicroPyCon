@@ -4,7 +4,7 @@ import { motion, easeIn } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteActiveFileArr, updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
 
-function TabBar() {
+function TabBar({tabBarScrollLeft}) {
     const Wrapper = styled(motion.div)`
         width: 100%;
         display: flex;
@@ -65,15 +65,18 @@ function TabBar() {
 
     useEffect(() => {
         if (containerRef.current) {
-            containerRef.current.scrollLeft = lastScrollPositionRef.current 
+            containerRef.current.scrollLeft = tabBarScrollLeft.current
         }
-    }, [activedFiles])
+    })
 
     return (
         <>
             {(activedFiles.length > 0) && (
                 <Wrapper
                     ref={containerRef}
+                    onScroll={() => {
+                        tabBarScrollLeft.current = containerRef.current.scrollLeft
+                    }}
                 >
                     {activedFiles.map(item => {
                         return (

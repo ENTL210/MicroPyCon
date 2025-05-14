@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'motion/react';
 import styled from 'styled-components'
 import Sidebar from './sidebar-components/Sidebar'
@@ -13,6 +13,7 @@ function App() {
   const [sidebarWidth, setSidebarWidth] = useState(250);
   const dispatch = useDispatch()
   const directoryPath = useSelector(state => state.directories.directoryPath)
+  const tabBarScrollLeft = useRef(0)
 
 
   useEffect(() => {
@@ -87,7 +88,7 @@ function App() {
           <WelcomingScreen />
         )}
 
-        <TabBar/>
+        <TabBar tabBarScrollLeft={tabBarScrollLeft}/>
       </Main>
     </RootContainer>
   )
