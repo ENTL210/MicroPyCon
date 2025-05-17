@@ -58,7 +58,6 @@ function TabBar({tabBarScrollLeft}) {
 
     const dispatch = useDispatch()
     const containerRef = useRef(null)
-    const lastScrollPositionRef = useRef(0)
 
     const activedFiles = useSelector(state => state.directories.activedFilesArr)
     const [hoverItem, setHoverItem] = useState({})
@@ -91,10 +90,6 @@ function TabBar({tabBarScrollLeft}) {
                                 setHoverItem({})
                             }}
                             onClick={() => {
-                                if (containerRef.current) {
-                                    lastScrollPositionRef.current = containerRef.current.scrollLeft
-                                }
-
                                 dispatch(updateActiveStatusOfActivedFiles(item))
                             }}
                             >
