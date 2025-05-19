@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import DirectoryTab from "./directory/DirectoryTab";
 import { memo } from "react";
 import { useSelector } from "react-redux";
+import ToolsTab from "./ToolsTab";
 
 function Sidebar({sidebarWidth}) {
     const Sidebar = styled(motion.div)`
@@ -17,7 +18,7 @@ function Sidebar({sidebarWidth}) {
     scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
     font-weight: 700;
-    overflow-y: hidden
+    overflow-y: hidden;
     `
 
     const directoriesArr = useSelector(state => state.directories.directoriesArr)
@@ -34,6 +35,7 @@ function Sidebar({sidebarWidth}) {
         }}
         >
             <DirectoryTab sidebarWidth={sidebarWidth}/>
+            <ToolsTab sidebarWidth={sidebarWidth}/>
         </Sidebar>
     )
 }
