@@ -200,6 +200,15 @@ app.on("ready", async () => {
         }
     });
 
+    ipcMain.handle('read-current-file', async (event, path) => {
+        try {
+            const fileContent = await fs.readFileSync(path, 'utf-8');
+            return fileContent.split('\n');
+        } catch (err) {
+            console.log("Errors reading file in main process: ", err)
+        }
+    })
+
 
 
     mainWindow.loadFile(path.join(app.getAppPath() + '/dist-react/index.html'));

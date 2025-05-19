@@ -6,7 +6,8 @@ import { easeIn } from 'motion';
 import WelcomingScreen from './main-component/WelcomingScreen';
 import TabBar from './main-component/TabBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetActivedFilesArr, updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
+import { resetActivedFilesArr, resetCurrentFile, updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
+import CodingArea from './main-component/CodingArea';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
       dispatch(updateDirectoryPath(path))
     })
     dispatch(resetActivedFilesArr())
+    dispatch(resetCurrentFile())
   })
 
   if (directoryPath.length > 0) {
@@ -64,6 +66,7 @@ function App() {
   justify-content: flex-start;
   box-sizing: border-box;
   padding: 20px;
+  gap: 5px;
   `
 
   return (
@@ -89,6 +92,7 @@ function App() {
         )}
 
         <TabBar tabBarScrollLeft={tabBarScrollLeft}/>
+        <CodingArea/>
       </Main>
     </RootContainer>
   )

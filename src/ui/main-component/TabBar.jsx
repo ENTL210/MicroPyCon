@@ -2,7 +2,7 @@ import {React, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import { motion, easeIn } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteActiveFileArr, updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
+import { deleteActiveFileArr, resetActivedFilesArr, resetCurrentFile, updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
 
 function TabBar({tabBarScrollLeft}) {
     const Wrapper = styled(motion.div)`
@@ -100,8 +100,10 @@ function TabBar({tabBarScrollLeft}) {
                                     whileHover={{
                                         background: "rgba(18,18,18, 0.15)"
                                     }}
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                        e.stopPropagation()
                                         dispatch(deleteActiveFileArr(item))
+                                        dispatch(resetCurrentFile())
                                     }}
                                     >
                                         <path d="M1 1 L9 9 M9 1 L1 9" strokeWidth="1" />

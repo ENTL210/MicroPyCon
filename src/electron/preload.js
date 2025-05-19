@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld('electron', {
     openDirectoryDialog: (callback) => ipcRenderer.invoke('dialog:openDirectoryDialog'),
     openFileDialog: (callback) => ipcRenderer.invoke('dialog:openFileDialog'),
     getDirectoryContents: (path) => ipcRenderer.invoke('get-directory-contents', path),
+    readCurrentFile: (path) => ipcRenderer.invoke('read-current-file', path)
 })
