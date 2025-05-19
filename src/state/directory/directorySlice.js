@@ -45,7 +45,6 @@ export const directorySlice = createSlice({
         deleteActiveFileArr: (state, action) => {
             const onDeleteItem = action.payload
             state.activedFilesArr = state.activedFilesArr.filter((item) => JSON.stringify(item) !== JSON.stringify(onDeleteItem))
-
         },
         resetCurrentFile: (state) =>  {
             state.currentFile = {}
