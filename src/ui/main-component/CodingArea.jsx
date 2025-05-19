@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import hljs from "highlight.js";
+import 'highlight.js/styles/atom-one-dark.css';
 import styled from "styled-components";
 import { motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,18 +9,18 @@ function CodingArea() {
     const dispatch = useDispatch()
     const currentFile = useSelector(state => state.directories.currentFile)
     const [currentFileContents, setCurrentFileContents] = useState([])
-    const Container = styled(motion.div)`
+    const Container = styled(motion.pre)`
         width: 100%;
         height: 100vh;
         display: flex;
         flex-direction: column;
         gap: 5px;
-        overflow-y: auto;
+        overflow: auto;
         white-space: pre;
         box-sizing: border-box;
     `
 
-    const CodeLine = styled.div`
+    const Line = styled.div`
         width: 100%;
         display: flex;
         flex-direction: row;
@@ -34,12 +36,12 @@ function CodingArea() {
         font-size: 12px;
         text-align: right;
         user-select: none;
-        color: #909297;
+        color: #ABB2BF;
     `
 
-    const LineContent = styled.div`
+    const LineContent = styled.code`
         flex-grow: 1;
-        color: #909297;
+        background: inherit;
     `
 
     useEffect(() => {
@@ -58,14 +60,30 @@ function CodingArea() {
         }
     }, [currentFile])
 
+    const CodeLine = ({ lineIndex, code }) => {
+        const codeRef = useRef(null)
+
+        useEffect(() => {
+            if (codeRef.current) {
+                hljs.highlightElement(codeRef.current)
+            }
+        }, [code])
+
+        return (
+            <Line>
+                <LineNumber>{lineIndex + 1}</LineNumber>
+                <LineContent ref={codeRef} className="language-python">
+                    {code}
+                </LineContent>
+            </Line>
+        )
+    }
+
     if (currentFileContents.length > 0) {
         return (
             <Container>
-                {currentFileContents.map((line, index) => (
-                    <CodeLine key={index}>
-                        <LineNumber>{index + 1}</LineNumber>
-                        <LineContent>{line}</LineContent>
-                    </CodeLine>
+                {currentFileContents.map((contents, index) => (
+                    <CodeLine key={index} lineIndex={index} code={contents} />
                 ))}
             </Container>
         )
