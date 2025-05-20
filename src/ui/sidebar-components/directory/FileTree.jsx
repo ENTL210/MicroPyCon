@@ -41,7 +41,7 @@ function FileTree({directories}) {
     `
 
     const FileTreeItem = styled(motion.div)`
-        width: 90%;
+        max-width: 100%;
         background: rgba( 255, 255, 255, 0.08);
         backdrop-filter: blur(50px) saturate(180%);
         -webkit-backdrop-filter: blur(50px) saturate(180%);

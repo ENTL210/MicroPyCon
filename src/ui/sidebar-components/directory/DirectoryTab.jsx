@@ -10,12 +10,13 @@ function DirectoryTab({sidebarWidth}) {
 
 
     const DirectoryTab = styled.div`
-        min-width: calc(${props => props.width} - 15px);
+        min-width: 100%;
         scroll-snap-align: start;
         user-select: none;
-        padding: 0px 0px 10px 0px;
+        padding: 10px;
         margin: 50px 0px 0px 0px;
         overflow-y: auto;
+        box-sizing: border-box;
     `
 
     const Container = styled.div`
@@ -23,7 +24,7 @@ function DirectoryTab({sidebarWidth}) {
         display: flex;
         flex-direction: column;
         gap: 12.5px;
-        padding-left: 15px;
+
     `
 
     const TabTitle = styled.div`
