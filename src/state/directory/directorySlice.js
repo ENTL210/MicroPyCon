@@ -48,6 +48,7 @@ export const directorySlice = createSlice({
         },
         resetCurrentFile: (state) =>  {
             state.currentFile = {}
+            console.log("Clean")
         }
     }
 })

@@ -26,7 +26,6 @@ function App() {
       dispatch(updateDirectoryPath(path))
     })
     dispatch(resetActivedFilesArr())
-    dispatch(resetCurrentFile())
   })
 
   if (directoryPath.length > 0) {
@@ -40,6 +39,7 @@ function App() {
     }
 
     output()
+    dispatch(resetCurrentFile())
   }
 
 
