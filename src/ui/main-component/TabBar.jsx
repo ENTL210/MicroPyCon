@@ -27,6 +27,7 @@ function TabBar({tabBarScrollLeft}) {
         border: 1px solid rgba(255, 255, 255, .18);
         border-radius: 5px;
         padding: 2.5px 10px;
+        gap: 5px;
         box-sizing: border-box;
         display: flex;
         flex-direction: row;

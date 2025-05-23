@@ -1,11 +1,14 @@
 import { motion } from "motion/react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
+import refreshingIcon from "../../assets/refresh-icon.png"
+import { setDeviceList } from "../../state/directory/deviceSlice";
 
 function ToolsTab({ sidebarWidth }) {
     const [isExpand, setIsExpand] = useState(false)
-    const serialPorts = useSelector(state => state.device.deviceList)
+    const serialPortsArr = useSelector(state => state.device.deviceList)
+    const dispatch = useDispatch()
 
     const ToolsTab = styled.div`
         min-width: 100%;
@@ -59,6 +62,29 @@ function ToolsTab({ sidebarWidth }) {
         outline: inherit;
     `
 
+    const RefreshButton = styled(motion.button)`
+        width: 30px;
+        height: 30px;
+        margin-right: 5px;
+        padding: 5px;
+        background: none;
+        color: white;
+        font-weight: 700;
+        border: none;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+
+        img {
+            width: 80%;
+        }
+
+    `
+
     const Text = styled.h1`
         width: 75%;
         font-weight: 700;
@@ -67,6 +93,25 @@ function ToolsTab({ sidebarWidth }) {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    `
+
+    const DeviceItem = styled(motion.div)`
+        max-width: 100%;
+        background: rgba( 255, 255, 255, 0.08);
+        backdrop-filter: blur(50px) saturate(180%);
+        -webkit-backdrop-filter: blur(50px) saturate(180%);
+        box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, .18);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        gap: 7.5px;
+        align-items: center;
+        justify-content: flex-start;
+        border-radius: 5px;
+        padding: 1.25px 0px 1.25px 10px;
+        cursor: pointer;
+        margin-left: 7.5px;
     `
 
 
@@ -84,14 +129,49 @@ function ToolsTab({ sidebarWidth }) {
                         background: isExpand ? "#2e96ff" : "rgba( 255, 255, 255, 0.08 )"
                     }}
                     whileHover={{
-                            background: "#2e96ff"
+                        background: "#2e96ff"
                     }}
                 >
                     <ExpandBtn>
                         {isExpand ? '▼' : '▶'}
                     </ExpandBtn>
                     <Text>Devices</Text>
+                    <RefreshButton
+                        whileHover={{
+                            background: "rgba(18,18,18, 0.15)"
+                        }}
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            const fetchSerialPorts = async () => {
+                                try {
+                                    const ports = await window.electron.getSerialPort();
+                                    dispatch(setDeviceList(ports))
+                                } catch (err) {
+                                    console.log("Error fetching serial ports in render: ", err)
+                                }
+                            }
+
+                            fetchSerialPorts()
+                        }}
+                    >
+                        <img src={refreshingIcon} alt={"Refreshing Icon"} />
+                    </RefreshButton>
                 </DeviceMenuWrapper>
+                {(isExpand) && (
+                    serialPortsArr.map((item) => {
+                        return (
+                            <DeviceItem
+                                key={item.path}
+                                whileHover={{
+                                    background: "#2e96ff"
+                                }}
+                            >
+                                <Text>{item.path}</Text>
+                            </DeviceItem>
+                        )
+                    })
+                )}
+
             </Container>
         </ToolsTab>
     )

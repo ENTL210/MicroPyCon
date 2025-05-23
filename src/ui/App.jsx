@@ -27,10 +27,6 @@ function App() {
       dispatch(updateDirectoryPath(path))
     })
 
-    dispatch(resetActivedFilesArr())
-  })
-
-  useEffect(() => {
     const fetchSerialPorts = async () => {
       try {
         const ports = await window.electron.getSerialPort();
@@ -41,6 +37,8 @@ function App() {
     }
 
     fetchSerialPorts()
+
+    dispatch(resetActivedFilesArr())
   })
 
   if (directoryPath.length > 0) {
