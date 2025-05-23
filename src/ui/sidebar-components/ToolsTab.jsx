@@ -1,14 +1,22 @@
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import refreshingIcon from "../../assets/refresh-icon.png"
-import { setDeviceList } from "../../state/directory/deviceSlice";
+import { setCurrentDevice, setDeviceList } from "../../state/directory/deviceSlice";
 
 function ToolsTab({ sidebarWidth }) {
-    const [isExpand, setIsExpand] = useState(false)
-    const serialPortsArr = useSelector(state => state.device.deviceList)
     const dispatch = useDispatch()
+    const [isExpand, setIsExpand] = useState(false)
+    const [expandedHeight, setExpandedHeight] = useState(0)
+    const devicesRef = useRef({})
+    const serialPortsArr = useSelector(state => state.device.deviceList)
+    const selectedDevice = useSelector(state => state.device.selectedDevice)
+
+    useEffect(() => {
+        console.log("Rendering Tool tabs...")
+        console.log(selectedDevice)
+    }, [])
 
     const ToolsTab = styled.div`
         min-width: 100%;
@@ -35,7 +43,7 @@ function ToolsTab({ sidebarWidth }) {
 
     const DeviceMenuWrapper = styled(motion.div)`
         max-width: 100%;
-        background: rgba( 255, 255, 255, 0.08);
+        background: ${props => props.background};
         backdrop-filter: blur(50px) saturate(180%);
         -webkit-backdrop-filter: blur(50px) saturate(180%);
         box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
@@ -97,7 +105,7 @@ function ToolsTab({ sidebarWidth }) {
 
     const DeviceItem = styled(motion.div)`
         max-width: 100%;
-        background: rgba( 255, 255, 255, 0.08);
+        background: ${props => props.background};
         backdrop-filter: blur(50px) saturate(180%);
         -webkit-backdrop-filter: blur(50px) saturate(180%);
         box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
@@ -123,11 +131,14 @@ function ToolsTab({ sidebarWidth }) {
                 <DeviceMenuWrapper
                     onClick={(e) => {
                         e.stopPropagation()
-                        setIsExpand(prev => !prev)
+                        setIsExpand((prev) => {
+                            if (prev) {
+                                dispatch(setCurrentDevice({}))
+                            }
+                            return !prev
+                        })
                     }}
-                    animate={{
-                        background: isExpand ? "#2e96ff" : "rgba( 255, 255, 255, 0.08 )"
-                    }}
+                    background={isExpand ? "#2e96ff" : "rgba( 255, 255, 255, 0.08 )"}
                     whileHover={{
                         background: "#2e96ff"
                     }}
@@ -161,9 +172,23 @@ function ToolsTab({ sidebarWidth }) {
                     serialPortsArr.map((item) => {
                         return (
                             <DeviceItem
+                                background={Object.keys(selectedDevice).length > 0 && (item.path === selectedDevice.path) ? "#2e96ff" : "rgba( 255, 255, 255, 0.08 )"}
                                 key={item.path}
+                                ref={element => {
+                                    if (element) {
+                                        devicesRef.current[item.path] = element
+                                    } else {
+                                        delete devicesRef.current[item.path]
+                                    }
+                                }}
                                 whileHover={{
                                     background: "#2e96ff"
+                                }}
+                                animate={{
+                                    height: selectedDevice.path === item.path ? "60px" : "35.56px"
+                                }}
+                                onClick={() => {
+                                    dispatch(setCurrentDevice(item))
                                 }}
                             >
                                 <Text>{item.path}</Text>

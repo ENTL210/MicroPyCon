@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    deviceArr: []
+    deviceArr: [],
+    selectedDevice: {}
 }
 
 export const deviceSlice = createSlice({
@@ -10,10 +11,13 @@ export const deviceSlice = createSlice({
     reducers: {
         setDeviceList: (state, action) => {
             state.deviceList = action.payload
+        },
+        setCurrentDevice: (state, action) => {
+            state.selectedDevice = action.payload
         }
     }
 })
 
-export const {setDeviceList} = deviceSlice.actions
+export const {setDeviceList, setCurrentDevice} = deviceSlice.actions
 
 export default deviceSlice.reducer
