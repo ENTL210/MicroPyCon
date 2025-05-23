@@ -71,7 +71,9 @@ function App() {
 
   return (
     <RootContainer>
-      <Sidebar sidebarWidth={`${sidebarWidth}px`} />
+      {(directoryPath.length >0) && (
+        <Sidebar sidebarWidth={`${sidebarWidth}px`} />
+      )}
       <Main
         initial={{
           width: '100vw',
