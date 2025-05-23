@@ -8,6 +8,7 @@ import TabBar from './main-component/TabBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetActivedFilesArr, resetCurrentFile, updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
 import CodingArea from './main-component/CodingArea';
+import { setDeviceList } from '../state/directory/deviceSlice';
 
 
 function App() {
@@ -25,7 +26,21 @@ function App() {
     window.electron.onFetchSelectedFile((event, path) => {
       dispatch(updateDirectoryPath(path))
     })
+
     dispatch(resetActivedFilesArr())
+  })
+
+  useEffect(() => {
+    const fetchSerialPorts = async () => {
+      try {
+        const ports = await window.electron.getSerialPort();
+        dispatch(setDeviceList(ports))
+      } catch (err) {
+        console.log("Error fetching serial ports in render: ", err)
+      } 
+    }
+
+    fetchSerialPorts()
   })
 
   if (directoryPath.length > 0) {

@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, dialog, ipcMain } from 'electron';
 import { installExtension, REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import fs, { lstat, lstatSync, readdir, readdirSync } from 'fs'
-import { walkSync } from '@nodesecure/fs-walk';
+import fs, {lstatSync, readdirSync } from 'fs'
+import { SerialPort } from 'serialport';
 import path, { sep } from "path";
 
 
@@ -206,6 +206,15 @@ app.on("ready", async () => {
             return fileContent.split('\n');
         } catch (err) {
             console.log("Errors reading file in main process: ", err)
+        }
+    })
+
+    ipcMain.handle('get-serial-port', async () => {
+        try {
+            const ports = await SerialPort.list();
+            return ports;
+        } catch (err) {
+            console.log("Error listing serial ports: ", err)
         }
     })
 

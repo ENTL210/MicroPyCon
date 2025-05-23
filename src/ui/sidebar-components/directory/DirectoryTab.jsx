@@ -33,7 +33,6 @@ function DirectoryTab({sidebarWidth}) {
         font-size: 18px;
     `
     
-
     return (
         <DirectoryTab width={sidebarWidth}>
             <Container>
