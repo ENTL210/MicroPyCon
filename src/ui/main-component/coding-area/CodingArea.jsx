@@ -15,9 +15,29 @@ function CodingArea() {
         display: flex;
         flex-direction: column;
         gap: 5px;
-        overflow: auto;
+        overflow: scroll;
         white-space: pre;
         box-sizing: border-box;
+        
+        &::-webkit-scrollbar {
+            width: 8px; /* Width of the vertical scrollbar */
+            height: 12px; /* Height of the horizontal scrollbar */
+            padding: 0;
+            display: block; /* Ensure it's always visible if content overflows */
+        }
+
+        &::-webkit-scrollbar-track {
+            background: rgba(30, 30, 30, 0.5); /* Darker track background */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: rgba(90, 90, 90, 0.7); /* Dark grey thumb */
+            background-clip: padding-box; /* Ensures border doesn't cut into background-color */
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(120, 120, 120, 0.9); /* Lighter thumb on hover */
+        }
     `
 
     const Line = styled.div`
