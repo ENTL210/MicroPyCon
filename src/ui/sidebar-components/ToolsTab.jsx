@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import refreshingIcon from "../../assets/refresh-icon.png"
+import consoleIcon from "../../assets/console-icon.png"
+import memoryReset from "../../assets/memory-reset.png"
+import uploadingIcon from "../../assets/upload-icon.png"
 import { setCurrentDevice, setDeviceList } from "../../state/directory/deviceSlice";
 
 function ToolsTab({ sidebarWidth }) {
@@ -90,8 +93,6 @@ function ToolsTab({ sidebarWidth }) {
         img {
             width: 80%;
         }
-
-
     `
 
     const Text = styled.h1`
@@ -130,7 +131,29 @@ function ToolsTab({ sidebarWidth }) {
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
-        gap: 10px;
+        align-items: center;
+        justify-content: space-evenly;
+    `
+
+    const FunctionBarButton = styled(motion.button)`
+        width: 30px;
+        margin-right: 5px;
+        padding: 5px;
+        background: none;
+        color: white;
+        font-weight: 700;
+        border: none;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+
+        img {
+            width: 80%;
+        }
     `
 
 
@@ -197,7 +220,6 @@ function ToolsTab({ sidebarWidth }) {
                                     background: "#2e96ff"
                                 }}
                                 animate={{
-                                    height: selectedDevice.path === item.path ? "72px" : "36px",
                                     border: selectedDevice.path === item.path ? "none" : "1px solid rgba(255, 255, 255, .18)"
                                 }}
                                 transition={{ duration: 0.2 }}
@@ -205,10 +227,33 @@ function ToolsTab({ sidebarWidth }) {
                                     dispatch(setCurrentDevice(item))
                                 }}
                             >
-                                <Text style={{padding: "1.25px 0px 1.25px 10px"}}>{item.path}</Text>
+                                <Text style={{ padding: "1.25px 0px 1.25px 10px" }}>{item.path}</Text>
                                 {(selectedDevice.path === item.path) && (
                                     <FunctionBar>
-                                        Hi
+                                        <FunctionBarButton
+                                            whileHover={{
+                                                background: "rgba(18,18,18, 0.15)"
+                                            }}
+                                            title="Flash device"
+                                        >
+                                            <img src={memoryReset} alt="Flash device" />
+                                        </FunctionBarButton>
+                                        <FunctionBarButton
+                                            whileHover={{
+                                                background: "rgba(18,18,18, 0.15)"
+                                            }}
+                                            title="Upload to device"
+                                        >
+                                            <img src={uploadingIcon} alt="Upload to device" />
+                                        </FunctionBarButton>
+                                        <FunctionBarButton
+                                            whileHover={{
+                                                background: "rgba(18,18,18, 0.15)"
+                                            }}
+                                            title="Open Console"
+                                        >
+                                            <img src={consoleIcon} alt="Open Console" />
+                                        </FunctionBarButton>
                                     </FunctionBar>
                                 )}
                             </DeviceItem>
