@@ -91,6 +91,7 @@ function ToolsTab({ sidebarWidth }) {
             width: 80%;
         }
 
+
     `
 
     const Text = styled.h1`
@@ -112,14 +113,24 @@ function ToolsTab({ sidebarWidth }) {
         border: 1px solid rgba(255, 255, 255, .18);
         box-sizing: border-box;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         gap: 7.5px;
-        align-items: center;
-        justify-content: flex-start;
+        align-items: flex-start;
+        justify-content: center;
         border-radius: 5px;
-        padding: 1.25px 0px 1.25px 10px;
         cursor: pointer;
         margin-left: 7.5px;
+    `
+
+    const FunctionBar = styled(motion.div)`
+        width: 100%;
+        height: 50%;
+        border-top: 1px solid rgba(255, 255, 255, .5);
+        padding: 5px 10px 5px 10px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
     `
 
 
@@ -164,8 +175,9 @@ function ToolsTab({ sidebarWidth }) {
 
                             fetchSerialPorts()
                         }}
+                        title="Refreshing"
                     >
-                        <img src={refreshingIcon} alt={"Refreshing Icon"} />
+                        <img src={refreshingIcon} alt="Refreshing Icon" />
                     </RefreshButton>
                 </DeviceMenuWrapper>
                 {(isExpand) && (
@@ -185,13 +197,20 @@ function ToolsTab({ sidebarWidth }) {
                                     background: "#2e96ff"
                                 }}
                                 animate={{
-                                    height: selectedDevice.path === item.path ? "60px" : "35.56px"
+                                    height: selectedDevice.path === item.path ? "72px" : "36px",
+                                    border: selectedDevice.path === item.path ? "none" : "1px solid rgba(255, 255, 255, .18)"
                                 }}
+                                transition={{ duration: 0.2 }}
                                 onClick={() => {
                                     dispatch(setCurrentDevice(item))
                                 }}
                             >
-                                <Text>{item.path}</Text>
+                                <Text style={{padding: "1.25px 0px 1.25px 10px"}}>{item.path}</Text>
+                                {(selectedDevice.path === item.path) && (
+                                    <FunctionBar>
+                                        Hi
+                                    </FunctionBar>
+                                )}
                             </DeviceItem>
                         )
                     })
