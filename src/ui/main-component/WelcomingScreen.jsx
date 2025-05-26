@@ -44,7 +44,7 @@ function WelcomingScreen() {
     box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
     border: 1.2px solid rgba(255, 255, 255, .3);
     border-radius: 5px;
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    backdrop-filter: blur(10px) saturate(180%);
     cursor: pointer;
     color: inherit;
     font: inherit;
