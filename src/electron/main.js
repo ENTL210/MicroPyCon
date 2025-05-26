@@ -1,8 +1,9 @@
 import { app, BrowserWindow, Menu, dialog, ipcMain } from 'electron';
 import { installExtension, REDUX_DEVTOOLS, REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer';
-import fs, {lstatSync, readdirSync } from 'fs'
+import fs, { lstatSync, readdirSync } from 'fs'
 import { SerialPort } from 'serialport';
 import path, { sep } from "path";
+import { spawn } from 'child_process';
 
 
 app.on("ready", async () => {
@@ -157,9 +158,9 @@ app.on("ready", async () => {
 
         })
 
-        
-        result.sort((a,b) => b.subDirectory.length - a.subDirectory.length)
-        
+
+        result.sort((a, b) => b.subDirectory.length - a.subDirectory.length)
+
 
         return result.filter(items => items.name !== ".DS_Store" && items.name !== ".git")
     }
@@ -190,7 +191,7 @@ app.on("ready", async () => {
                     subDirectory: stat.isDirectory() ? walkingDirectory(parentPath) : []
                 }
             ]
-            
+
             return result
 
 
@@ -212,10 +213,32 @@ app.on("ready", async () => {
     ipcMain.handle('get-serial-port', async () => {
         try {
             const ports = await SerialPort.list();
-            return ports;
+            const deviceOnlyPorts = ports.filter(port => {
+                return port.path.toLowerCase().includes('tty.usb') ||
+                    port.path.toLowerCase().includes('cu.usbserial')
+            })
+            return deviceOnlyPorts;
         } catch (err) {
             console.log("Error listing serial ports: ", err)
         }
+    })
+
+    ipcMain.on('trigger-flash', (event, serialPort, flashFirmwarePath) => {
+        mainWindow.webContents.send('clear-console')
+
+        const eraseFlashProcess = spawn('esptool.py', [
+            '--port',
+            serialPort,
+            'erase_flash'
+        ])
+
+        eraseFlashProcess.stdout.on('data', (data) => {
+            mainWindow.webContents.send('console-output', data.toString())
+        })
+
+        eraseFlashProcess.stderr.on('data', (data) => {
+            mainWindow.webContents.send('console-output', `ERROR: ${data.toString()}`)
+        })
     })
 
 

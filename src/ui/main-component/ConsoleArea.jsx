@@ -1,13 +1,24 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import styled from "styled-components";
 
 function ConsoleArea({ }) {
-    const Wrapper = styled(motion.div)`
-        border-top: 1px solid rgba(255,255,255, 0.2);
+    const dispatch = useDispatch();
+    const consoleOutput = useSelector((state) => state.console.consoleOutput)
+    const consoleRef = useRef(null);
+
+    useEffect(() => {
+    if (consoleRef.current) {
+      consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
+    }
+  }, [consoleOutput]);
+
+
+    const Console = styled(motion.div)`
         width: 100%;
-        height: 45%;
+        height: 100vh;
+        border-top: 1px solid rgba(255,255,255, 0.2);
         padding: 10px;
         overflow: auto;
         white-space: pre;
@@ -46,11 +57,13 @@ function ConsoleArea({ }) {
 
     return (
         <AnimatePresence>
-            <Wrapper>
-                <OutputLine>
-                    Hello
-                </OutputLine>
-            </Wrapper>
+            {consoleOutput.length > 0 && (
+                <Console ref={consoleRef}>
+                    {consoleOutput.map((line, index) => (
+                        <OutputLine key={index}>{line}</OutputLine>
+                    ))}
+                </Console>
+            )}
         </AnimatePresence>
     )
 }

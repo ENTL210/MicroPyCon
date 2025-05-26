@@ -266,6 +266,12 @@ function ToolsTab({ sidebarWidth }) {
                                             whileHover={{
                                                 background: "rgba(18,18,18, 0.15)"
                                             }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                const serialPort = selectedDevice.path
+                                                const firmware = selectedFirmware
+                                                window.electron.triggerFlash(serialPort, firmware)
+                                            }}
                                             title="Flash device"
                                         >
                                             <img src={memoryReset} alt="Flash device" />

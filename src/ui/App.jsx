@@ -11,6 +11,7 @@ import CodingArea from './main-component/CodingArea';
 import { setDeviceList } from '../state/slicers/deviceSlice';
 import Popups from './Popups';
 import ConsoleArea from './main-component/ConsoleArea';
+import { addConsoleOutput, clearConsoleOutput } from '../state/slicers/consoleSlice';
 
 
 function App() {
@@ -27,6 +28,14 @@ function App() {
     });
     window.electron.onFetchSelectedFile((event, path) => {
       dispatch(updateDirectoryPath(path))
+    })
+
+    window.electron.clearConsoleOutput((event) => {
+      dispatch(clearConsoleOutput())
+    })
+
+    window.electron.getConsoleOutput((event, data) => {
+      dispatch(addConsoleOutput(data))
     })
 
     const fetchSerialPorts = async () => {
