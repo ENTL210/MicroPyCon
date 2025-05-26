@@ -15,7 +15,7 @@ function TabBar({tabBarScrollLeft}) {
         flex-wrap: nowrap;
         overflow-x: auto;
         box-sizing: border-box;
-        padding: 5px 0px 5px 0px;
+        padding: 20px 10px;
     `
 
     const Tab = styled(motion.div)`

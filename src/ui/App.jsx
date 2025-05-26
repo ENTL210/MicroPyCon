@@ -10,6 +10,7 @@ import { resetActivedFilesArr, resetCurrentFile, updateDirectoriesArr, updateDir
 import CodingArea from './main-component/CodingArea';
 import { setDeviceList } from '../state/slicers/deviceSlice';
 import Popups from './Popups';
+import ConsoleArea from './main-component/ConsoleArea';
 
 
 function App() {
@@ -80,7 +81,6 @@ function App() {
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
-  padding: 20px;
   gap: 5px;
   `
 
@@ -110,6 +110,7 @@ function App() {
 
         <TabBar tabBarScrollLeft={tabBarScrollLeft}/>
         <CodingArea/>
+        <ConsoleArea/>
       </Main>
       <Popups/>
     </RootContainer>

@@ -13,6 +13,7 @@ function CodingArea() {
         width: 100%;
         height: 100vh;
         display: flex;
+        padding: 0px 10px 0px 10px;
         flex-direction: column;
         gap: 5px;
         overflow: auto;
