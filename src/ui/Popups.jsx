@@ -13,8 +13,8 @@ function Popups({ }) {
         left: 0;
         bottom: 0;
         background-color: ${props => 
-            props.type === "success" ? "rgba(40, 167, 69, 1)"
-            : props.type === "failure" ? "rgba(220, 53, 69, 1)" : props.type === "warning" ? "rgba(255, 193, 7, 1)" 
+            props.type === "success" ? "#218838"
+            : props.type === "failure" ? "#B02A37" : props.type === "warning" ? "#B38600" 
             : "rgba(18, 18, 18, 1)" };
         padding: 5px;
         display: flex;
