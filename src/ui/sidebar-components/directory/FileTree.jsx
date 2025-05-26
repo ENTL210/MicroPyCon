@@ -2,7 +2,7 @@ import { memo, React, useState } from "react";
 import styled from "styled-components";
 import { motion } from "motion/react";
 import { useDispatch } from "react-redux";
-import { addActivedFilesArr } from "../../../state/directory/directorySlice";
+import { addActivedFilesArr } from "../../../state/slicers/directorySlice";
 
 
 function FileTree({directories}) {

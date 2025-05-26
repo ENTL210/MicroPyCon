@@ -6,7 +6,8 @@ import refreshingIcon from "../../assets/refresh-icon.png"
 import consoleIcon from "../../assets/console-icon.png"
 import memoryReset from "../../assets/memory-reset.png"
 import uploadingIcon from "../../assets/upload-icon.png"
-import { setCurrentDevice, setDeviceList } from "../../state/directory/deviceSlice";
+import { setCurrentDevice, setDeviceList, setSelectedFirmware } from "../../state/slicers/deviceSlice";
+import { hidePopup, showPopup } from "../../state/slicers/popupSlice";
 
 function ToolsTab({ sidebarWidth }) {
     const dispatch = useDispatch()
@@ -15,6 +16,7 @@ function ToolsTab({ sidebarWidth }) {
     const devicesRef = useRef({})
     const serialPortsArr = useSelector(state => state.device.deviceList)
     const selectedDevice = useSelector(state => state.device.selectedDevice)
+    const selectedFirmware = useSelector(state => state.device.selectedFirmware)
 
     useEffect(() => {
         console.log("Rendering Tool tabs...")
@@ -42,6 +44,25 @@ function ToolsTab({ sidebarWidth }) {
         font-weight: 700;
         color: #FFFFFF;
         font-size: 18px;
+    `
+
+    const FileDialogLauncherButton = styled(motion.button)`
+        max-width: 100%;
+        background: rgba( 255, 255, 255, 0.08 );
+        backdrop-filter: blur(50px) saturate(180%);
+        -webkit-backdrop-filter: blur(50px) saturate(180%);
+        box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, .18);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        gap: 7.5px;
+        align-items: center;
+        justify-content: flex-start;
+        border-radius: 5px;
+        padding: 1.25px 0px 1.25px 10px;
+        cursor: pointer;
+        outline: inherit;
     `
 
     const DeviceMenuWrapper = styled(motion.div)`
@@ -73,7 +94,7 @@ function ToolsTab({ sidebarWidth }) {
         outline: inherit;
     `
 
-    const RefreshButton = styled(motion.button)`
+    const Button = styled(motion.button)`
         width: 30px;
         height: 30px;
         margin-right: 5px;
@@ -112,6 +133,7 @@ function ToolsTab({ sidebarWidth }) {
         -webkit-backdrop-filter: blur(50px) saturate(180%);
         box-shadow: 0.5px 0.5px 0.5px 0.2px rgba( 0, 0, 0, 0.3);
         border: 1px solid rgba(255, 255, 255, .18);
+        padding: 1.25px 0px 1.25px 10px;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
@@ -135,33 +157,36 @@ function ToolsTab({ sidebarWidth }) {
         justify-content: space-evenly;
     `
 
-    const FunctionBarButton = styled(motion.button)`
-        width: 30px;
-        margin-right: 5px;
-        padding: 5px;
-        background: none;
-        color: white;
-        font-weight: 700;
-        border: none;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 5px;
-
-        img {
-            width: 80%;
-        }
-    `
-
-
 
     return (
         <ToolsTab width={sidebarWidth}>
             <Container>
                 <TabTitle>Tools</TabTitle>
+                <FileDialogLauncherButton
+                    whileHover={{
+                        background: "#2e96ff"
+                    }}
+                    onClick={async () => {
+                        try {
+                            const filePath = await window.electron.openFileDialog();
+                            if (filePath.length > 0) {
+                                dispatch(setSelectedFirmware(filePath[0]))
+                                dispatch(hidePopup())
+                            }
+                        } catch (err) {
+                            console.log("Error selecting MicroPython firmware in render", err)
+                        }
+                    }}
+                >
+                    <Text
+                        style={{
+                            textAlign: "start",
+                            width: "100%"
+                        }}
+                    >
+                        {selectedFirmware ? `Firmware: ${selectedFirmware.split("/").at(-1)}` : "Select MicroPython Firmware..."}
+                    </Text>
+                </FileDialogLauncherButton>
                 <DeviceMenuWrapper
                     onClick={(e) => {
                         e.stopPropagation()
@@ -181,7 +206,7 @@ function ToolsTab({ sidebarWidth }) {
                         {isExpand ? '▼' : '▶'}
                     </ExpandBtn>
                     <Text>Devices</Text>
-                    <RefreshButton
+                    <Button
                         whileHover={{
                             background: "rgba(18,18,18, 0.15)"
                         }}
@@ -201,7 +226,7 @@ function ToolsTab({ sidebarWidth }) {
                         title="Refreshing"
                     >
                         <img src={refreshingIcon} alt="Refreshing Icon" />
-                    </RefreshButton>
+                    </Button>
                 </DeviceMenuWrapper>
                 {(isExpand) && (
                     serialPortsArr.map((item) => {
@@ -224,36 +249,43 @@ function ToolsTab({ sidebarWidth }) {
                                 }}
                                 transition={{ duration: 0.2 }}
                                 onClick={() => {
-                                    dispatch(setCurrentDevice(item))
+                                    if (selectedFirmware) {
+                                        dispatch(setCurrentDevice(item))
+                                    } else {
+                                        dispatch(showPopup({
+                                            messeage: "Please select a MicroPython firmware...",
+                                            type: "warning",
+                                        }))
+                                    }
                                 }}
                             >
-                                <Text style={{ padding: "1.25px 0px 1.25px 10px" }}>{item.path}</Text>
+                                <Text>{item.path}</Text>
                                 {(selectedDevice.path === item.path) && (
                                     <FunctionBar>
-                                        <FunctionBarButton
+                                        <Button
                                             whileHover={{
                                                 background: "rgba(18,18,18, 0.15)"
                                             }}
                                             title="Flash device"
                                         >
                                             <img src={memoryReset} alt="Flash device" />
-                                        </FunctionBarButton>
-                                        <FunctionBarButton
+                                        </Button>
+                                        <Button
                                             whileHover={{
                                                 background: "rgba(18,18,18, 0.15)"
                                             }}
                                             title="Upload to device"
                                         >
                                             <img src={uploadingIcon} alt="Upload to device" />
-                                        </FunctionBarButton>
-                                        <FunctionBarButton
+                                        </Button>
+                                        <Button
                                             whileHover={{
                                                 background: "rgba(18,18,18, 0.15)"
                                             }}
                                             title="Open Console"
                                         >
                                             <img src={consoleIcon} alt="Open Console" />
-                                        </FunctionBarButton>
+                                        </Button>
                                     </FunctionBar>
                                 )}
                             </DeviceItem>

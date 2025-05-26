@@ -3,7 +3,7 @@ import { motion, AnimatePresence, easeIn, easeOut} from 'motion/react';
 import styled from 'styled-components'
 
 import { useDispatch, useSelector } from "react-redux";
-import { updateDirectoryPath } from "../../state/directory/directorySlice";
+import { updateDirectoryPath } from "../../state/slicers/directorySlice";
 
 
 function WelcomingScreen() {

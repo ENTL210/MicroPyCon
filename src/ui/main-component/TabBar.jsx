@@ -2,7 +2,7 @@ import {React, useEffect, useRef, useState} from "react";
 import styled from "styled-components";
 import { motion, easeIn } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteActiveFileArr, resetActivedFilesArr, resetCurrentFile, updateActiveStatusOfActivedFiles } from "../../state/directory/directorySlice";
+import { deleteActiveFileArr, resetActivedFilesArr, resetCurrentFile, updateActiveStatusOfActivedFiles } from "../../state/slicers/directorySlice";
 
 function TabBar({tabBarScrollLeft}) {
     const Wrapper = styled(motion.div)`

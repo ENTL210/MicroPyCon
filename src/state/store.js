@@ -1,13 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import directoryReducer from "../state/directory/directorySlice.js"
-import deviceReducer from "../state/directory/deviceSlice.js"
+import { deviceSlice } from "../state/slicers/deviceSlice.js"
+import { popupSlice } from "./slicers/popupSlice.js";
+import { directorySlice } from "./slicers/directorySlice.js";
+
 
 const store = configureStore({
     reducer: {
-        directories: directoryReducer,
-        device: deviceReducer,
-        
+        directories: directorySlice.reducer,
+        device: deviceSlice.reducer,
+        popup: popupSlice.reducer,
     },
+
     devTools: true
 })
 

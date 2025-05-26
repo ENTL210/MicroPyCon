@@ -54,5 +54,3 @@ export const directorySlice = createSlice({
 })
 
 export const { updateDirectoryPath, updateDirectoriesArr, addActivedFilesArr, resetActivedFilesArr, updateActiveStatusOfActivedFiles, deleteActiveFileArr, resetCurrentFile } = directorySlice.actions
-
-export default directorySlice.reducer

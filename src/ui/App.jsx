@@ -6,9 +6,10 @@ import { easeIn } from 'motion';
 import WelcomingScreen from './main-component/WelcomingScreen';
 import TabBar from './main-component/TabBar';
 import { useDispatch, useSelector } from 'react-redux';
-import { resetActivedFilesArr, resetCurrentFile, updateDirectoriesArr, updateDirectoryPath } from '../state/directory/directorySlice';
+import { resetActivedFilesArr, resetCurrentFile, updateDirectoriesArr, updateDirectoryPath } from '../state/slicers/directorySlice';
 import CodingArea from './main-component/CodingArea';
-import { setDeviceList } from '../state/directory/deviceSlice';
+import { setDeviceList } from '../state/slicers/deviceSlice';
+import Popups from './Popups';
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  overflow: hidden;
   `
 
   const Main = styled(motion.div)`
@@ -109,6 +111,7 @@ function App() {
         <TabBar tabBarScrollLeft={tabBarScrollLeft}/>
         <CodingArea/>
       </Main>
+      <Popups/>
     </RootContainer>
   )
 }
