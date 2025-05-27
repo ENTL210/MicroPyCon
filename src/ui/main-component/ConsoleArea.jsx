@@ -55,11 +55,6 @@ function ConsoleArea({ }) {
         text-align: left;
     `;
 
-    const consoleAnimationVariant = {
-        hidden: { y: '100%', opacity: 0 }, // Starts off-screen at the bottom
-        visible: { y: '0%', opacity: 1, transition: { type: 'spring', stiffness: 100, damping: 10 } },
-        exit: { y: '100%', opacity: 0, transition: { duration: 0.3 } },
-    };
 
 
     return (
@@ -67,10 +62,6 @@ function ConsoleArea({ }) {
             {consoleOutput.length > 0 && (
                 <Console 
                     ref={consoleRef}
-                    variants={consoleAnimationVariant}
-                    initial="hidden"
-                    animate={"visible"}
-                    exit={"exit"}
                 >
                     {consoleOutput.map((line, index) => (
                         <OutputLine key={index}>{line}</OutputLine>
