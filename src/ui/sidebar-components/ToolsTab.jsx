@@ -171,7 +171,10 @@ function ToolsTab({ sidebarWidth }) {
                             const filePath = await window.electron.openFileDialog();
                             if (filePath.length > 0) {
                                 dispatch(setSelectedFirmware(filePath[0]))
-                                dispatch(hidePopup())
+                                dispatch(showPopup({
+                                    messeage: `${filePath[0].split("/").at(-1)} has been selected`,
+                                    type: "success",
+                                }))
                             }
                         } catch (err) {
                             console.log("Error selecting MicroPython firmware in render", err)

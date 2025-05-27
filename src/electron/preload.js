@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('electron', {
     getSerialPort: () => ipcRenderer.invoke('get-serial-port'),
     triggerFlash: (serialPort, flashFirmwarePath) => ipcRenderer.send('trigger-flash', serialPort, flashFirmwarePath),
     clearConsoleOutput: (callback) => ipcRenderer.on('clear-console', callback),
-    getConsoleOutput: (callback) => ipcRenderer.on('console-output', callback)
+    getConsoleOutput: (callback) => ipcRenderer.on('console-output', callback),
+    getFlashingStatus: (callback) => ipcRenderer.on('flash-complete', callback)
 })

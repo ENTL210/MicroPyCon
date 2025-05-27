@@ -13,12 +13,13 @@ function CodingArea() {
         width: 100%;
         height: 100vh;
         display: flex;
-        padding: 0px 10px 0px 10px;
+        padding: 0px 10px;
         flex-direction: column;
         gap: 5px;
         overflow: auto;
         white-space: pre;
         box-sizing: border-box;
+        margin: 0;
 
         &::-webkit-scrollbar {
             width: 8px; /* Width of the vertical scrollbar */

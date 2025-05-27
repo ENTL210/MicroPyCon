@@ -2,10 +2,19 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { AnimatePresence, motion } from "motion/react";
 import { hidePopup } from "../state/slicers/popupSlice";
+import { useEffect, useState } from "react";
 
 function Popups({ }) {
     const dispatch = useDispatch();
     const {isVisible, messeage, type} = useSelector(state => state.popup)
+
+    useEffect(() => {
+        if (isVisible) {
+            setTimeout(() => {
+                dispatch(hidePopup())
+            }, 5000)
+        }
+    }, [isVisible])
 
     const Wrapper = styled(motion.div)`
         width: 100%;

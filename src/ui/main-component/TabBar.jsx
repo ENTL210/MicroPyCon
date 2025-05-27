@@ -11,11 +11,12 @@ function TabBar({tabBarScrollLeft}) {
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
+        flex-shrink: 0;
         gap: 10px;
         flex-wrap: nowrap;
         overflow-x: auto;
         box-sizing: border-box;
-        padding: 20px 10px;
+        padding: 12.5px 10px;
     `
 
     const Tab = styled(motion.div)`

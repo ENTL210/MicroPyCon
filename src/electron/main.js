@@ -239,6 +239,45 @@ app.on("ready", async () => {
         eraseFlashProcess.stderr.on('data', (data) => {
             mainWindow.webContents.send('console-output', `ERROR: ${data.toString()}`)
         })
+
+        eraseFlashProcess.on('close', (code) => {
+            if (code === 0) {
+                mainWindow.webContents.send('console-output', 'Erasing chip completed');
+
+                setTimeout(() => {
+                    const writeFirmwareProcess = spawn('esptool.py', [
+                        '--port',
+                        serialPort,
+                        'write_flash',
+                        '0x1000',
+                        flashFirmwarePath
+                    ])
+
+                    writeFirmwareProcess.stdout.on('data', (data) => {
+                        mainWindow.webContents.send('console-output', data.toString())
+                    })
+
+                    writeFirmwareProcess.stderr.on('data', (data) => {
+                        mainWindow.webContents.send('console-output', `ERROR: ${data.toString()}`)
+                    })
+
+                    writeFirmwareProcess.on('close', (code) => {
+                        if (code === 0) {
+                            mainWindow.webContents.send('console-output', 'Writing firmware completed')
+                            mainWindow.webContents.send('flash-complete')
+                        } else {
+                            mainWindow.webContents.send(`console-output', 'Flashing failed with exit code: ${code}`)
+                            mainWindow.webContents.send('flash-complete')
+                        }
+                    })
+                }, 5000)
+            } else {
+                mainWindow.webContents.send('console-output', `Erasing flash failed with exit code: ${code}`)
+                mainWindow.webContents.send('flash-complete')
+            }
+
+
+        })
     })
 
 

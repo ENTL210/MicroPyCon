@@ -11,7 +11,8 @@ import CodingArea from './main-component/CodingArea';
 import { setDeviceList } from '../state/slicers/deviceSlice';
 import Popups from './Popups';
 import ConsoleArea from './main-component/ConsoleArea';
-import { addConsoleOutput, clearConsoleOutput } from '../state/slicers/consoleSlice';
+import { addConsoleOutput, clearConsoleOutput, flashComplete } from '../state/slicers/consoleSlice';
+import { hidePopup, showPopup } from '../state/slicers/popupSlice';
 
 
 function App() {
@@ -36,6 +37,34 @@ function App() {
 
     window.electron.getConsoleOutput((event, data) => {
       dispatch(addConsoleOutput(data))
+
+      if (data === 'Erasing chip completed') {
+        dispatch(showPopup({
+          messeage: "Selected device is successfully erased",
+          type: "success",
+        }))
+
+        setTimeout(() => {
+          dispatch(showPopup({
+          messeage: "Press & hold the BOOT button for 4s",
+          type: "warning",
+        }))
+        },1000)
+      } else if (data === 'Writing firmware completed') {
+        dispatch(showPopup({
+          messeage: "Firmware has been written successfully",
+          type: "success",
+        }))
+      } else if (data.includes("failed") || data.includes("exit code")) {
+        dispatch(showPopup({
+          messeage: "Oops! Something went wrong. Check the exit code and try again in a moment.",
+          type: "failure",
+        }))
+      }
+    })
+
+    window.electron.getFlashingStatus((event, data) => {
+      dispatch(flashComplete())
     })
 
     const fetchSerialPorts = async () => {
@@ -44,7 +73,7 @@ function App() {
         dispatch(setDeviceList(ports))
       } catch (err) {
         console.log("Error fetching serial ports in render: ", err)
-      } 
+      }
     }
 
     fetchSerialPorts()
@@ -90,12 +119,12 @@ function App() {
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
-  gap: 5px;
+  padding: 0px;
   `
 
   return (
     <RootContainer>
-      {(directoryPath.length >0) && (
+      {(directoryPath.length > 0) && (
         <Sidebar sidebarWidth={`${sidebarWidth}px`} />
       )}
       <Main
@@ -117,11 +146,11 @@ function App() {
           <WelcomingScreen />
         )}
 
-        <TabBar tabBarScrollLeft={tabBarScrollLeft}/>
-        <CodingArea/>
-        <ConsoleArea/>
+        <TabBar tabBarScrollLeft={tabBarScrollLeft} />
+        <CodingArea />
+        <ConsoleArea />
       </Main>
-      <Popups/>
+      <Popups />
     </RootContainer>
   )
 }

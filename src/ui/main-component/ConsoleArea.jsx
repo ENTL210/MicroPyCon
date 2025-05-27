@@ -9,10 +9,10 @@ function ConsoleArea({ }) {
     const consoleRef = useRef(null);
 
     useEffect(() => {
-    if (consoleRef.current) {
-      consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
-    }
-  }, [consoleOutput]);
+        if (consoleRef.current) {
+            consoleRef.current.scrollTop = consoleRef.current.scrollHeight;
+        }
+    }, [consoleOutput]);
 
 
     const Console = styled(motion.div)`
@@ -54,6 +54,8 @@ function ConsoleArea({ }) {
         color: #ABB2BF;
         text-align: left;
     `;
+
+
 
     return (
         <AnimatePresence>
