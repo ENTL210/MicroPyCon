@@ -37,7 +37,7 @@ function App() {
 
     window.electron.getConsoleOutput((event, data) => {
       dispatch(addConsoleOutput(data))
-
+      
       if (data === 'Erasing chip completed') {
         dispatch(showPopup({
           messeage: "Selected device is successfully erased",
@@ -53,6 +53,11 @@ function App() {
       } else if (data === 'Writing firmware completed') {
         dispatch(showPopup({
           messeage: "Firmware has been written successfully",
+          type: "success",
+        }))
+      } else if (data === 'Code is being uploaded successfully.') {
+        dispatch(showPopup({
+          messeage: "Code has been uploaded successfully. Press EN button to hard reset",
           type: "success",
         }))
       } else if (data.includes("failed") || data.includes("exit code")) {

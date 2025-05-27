@@ -5,7 +5,6 @@ import { SerialPort } from 'serialport';
 import path, { sep } from "path";
 import { spawn } from 'child_process';
 
-
 app.on("ready", async () => {
     try {
         const extensions = [REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS]
@@ -278,6 +277,37 @@ app.on("ready", async () => {
 
 
         })
+    })
+
+    ipcMain.on('upload-code', (event, serialPort, codePath) => {
+        mainWindow.webContents.send('clear-console')
+
+        const uploadCodeProcess = spawn('ampy', [
+            '--port',
+            serialPort,
+            'put',
+            `${codePath}/`,
+            '/'
+        ])
+
+        mainWindow.webContents.send('console-output', `ampy --port ${serialPort} put ${codePath}/ /`)
+
+        uploadCodeProcess.stdout.on('data', (data) => {
+            mainWindow.webContents.send('console-output', data.toString())
+        })
+
+        uploadCodeProcess.stderr.on('data', (data) => {
+            mainWindow.webContents.send('console-output', `ERROR: ${data.toString()}`)
+        })
+
+        uploadCodeProcess.on('close', (code) => {
+            if (code === 0) {
+                mainWindow.webContents.send('console-output', 'Code is being uploaded successfully.')
+            } else {
+                mainWindow.webContents.send('console-output', `AMPY upload failed with exit code: ${code}`);
+            }
+        })
+
     })
 
 

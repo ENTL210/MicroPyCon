@@ -17,6 +17,7 @@ function ToolsTab({ sidebarWidth }) {
     const serialPortsArr = useSelector(state => state.device.deviceList)
     const selectedDevice = useSelector(state => state.device.selectedDevice)
     const selectedFirmware = useSelector(state => state.device.selectedFirmware)
+    const selectedDirectory = useSelector(state => state.directories.directoryPath)
 
     useEffect(() => {
         console.log("Rendering Tool tabs...")
@@ -282,6 +283,12 @@ function ToolsTab({ sidebarWidth }) {
                                         <Button
                                             whileHover={{
                                                 background: "rgba(18,18,18, 0.15)"
+                                            }}
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                const serialPort = selectedDevice.path
+                                                const directoryPath = selectedDirectory
+                                                window.electron.uploadCode(serialPort, directoryPath)
                                             }}
                                             title="Upload to device"
                                         >
